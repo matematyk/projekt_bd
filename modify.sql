@@ -7,7 +7,7 @@ DROP TABLE Players;
 
 CREATE TABLE Teams (
     Team_ID NUMBER(3)  NOT NULL,
-    Nazwa VARCHAR2(40)  NOT NULL,
+    TeamName VARCHAR2(40)  NOT NULL,
     CONSTRAINT Druzyny_pk PRIMARY KEY (Team_ID)
 );
 
@@ -38,9 +38,9 @@ CREATE TABLE Sets_m (
 
 CREATE TABLE Players (
     Player_ID NUMBER(3)  NOT NULL,
-    Imie VARCHAR2(20)  NOT NULL,
-    Nazwisko VARCHAR2(20)  NOT NULL,
-    Druzyna_ID NUMBER(3)  NOT NULL,
+    FirstName VARCHAR2(20) NOT NULL,
+    LastName VARCHAR2(20)  NOT NULL,
+    Team_ID NUMBER(3)  NOT NULL,
     CONSTRAINT Player_pk PRIMARY KEY (Player_ID)
 );
 
@@ -58,23 +58,23 @@ ALTER TABLE Players ADD CONSTRAINT Players_Zawodnicy
     INITIALLY IMMEDIATE
 ;
 
-ALTER TABLE Game ADD CONSTRAINT ]
-    FOREIGN KEY (Druzyna2_ID)
-    REFERENCES Teams (Druzyna_ID)  
+ALTER TABLE Game ADD CONSTRAINT Game_Teams_2
+    FOREIGN KEY (Team2_ID)
+    REFERENCES Teams (Team_ID)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 ALTER TABLE Games ADD CONSTRAINT Game_Teams_1
     FOREIGN KEY (Team1_ID)
-    REFERENCES Teams (Team2_ID)  
+    REFERENCES Teams (Team_ID)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 ALTER TABLE Players ADD CONSTRAINT NalezyDoDruzyny
-    FOREIGN KEY (Druzyna_ID)
-    REFERENCES Teams (Druzyna_ID)  
+    FOREIGN KEY (Team_ID)
+    REFERENCES Teams (Team_ID)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
