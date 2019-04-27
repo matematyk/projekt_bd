@@ -31,8 +31,8 @@ CREATE TABLE Sets_m (
     Set_ID NUMBER(3) NOT NULL,
     Game_ID NUMBER(3)  NOT NULL,
     NumerSet NUMBER(3)  NOT NULL,
-    ResultSet_1 NUMBER(3)  NOT NULL,
-    ResultSet_2 NUMBER(3)  NOT NULL,
+    ResultSet_1 VARCHAR2(4)  NOT NULL,
+    ResultSet_2 VARCHAR2(4)  NOT NULL,
     CONSTRAINT Sets_pk PRIMARY KEY (Set_ID)
 );
 
