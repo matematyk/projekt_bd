@@ -3,4 +3,6 @@
 ![useful image](Selection_077.png)
 
 
-# sudo ssh -L 123:labora.mimuw.edu.pl:1521 students.mimuw.edu.pl
+Tunelowanie sie do hosta labora.mimuw.edu.pl 
+
+# ssh -N -f -L localhost:5431:labora.mimuw.edu.pl:1521 mw404851@students.mimuw.edu.pl
