@@ -1,87 +1,87 @@
-DROP TABLE IF EXISTS Teams CASCADE;
-DROP TABLE IF EXISTS Gracze CASCADE;
-DROP TABLE IF EXISTS Mecze CASCADE;
-DROP TABLE IF EXISTS Sets CASCADE;
-DROP TABLE IF EXISTS Zawodnicy CASCADE;
+DROP TABLE Teams;
+DROP TABLE Gracze;
+DROP TABLE Games;
+DROP TABLE Sets_m;
+DROP TABLE Players;
 
 
 CREATE TABLE Teams (
-    Druzyna_ID SERIAL  NOT NULL,
-    Nazwa varchar(40)  NOT NULL,
-    CONSTRAINT Druzyny_pk PRIMARY KEY (Druzyna_ID)
+    Team_ID NUMBER(3)  NOT NULL,
+    Nazwa VARCHAR2(40)  NOT NULL,
+    CONSTRAINT Druzyny_pk PRIMARY KEY (Team_ID)
 );
 
-CREATE TABLE Gracze (
-    Mecz_ID int NOT NULL,
-    Zawodnik_ID int  NOT NULL,
-    CONSTRAINT Gracze_pk PRIMARY KEY (Mecz_ID,Zawodnik_ID)
+CREATE TABLE WhoPlays (
+    Game_ID NUMBER(3) NOT NULL,
+    Player_ID NUMBER(3)  NOT NULL,
+    CONSTRAINT WhoPlays_pk PRIMARY KEY (Game_ID, Player_ID)
 );
 
 
-CREATE TABLE Mecze (
-    Mecz_ID SERIAL NOT NULL,
-    Data date  NOT NULL,
-    Wynik varchar(3)  NOT NULL,
-    Druzyna1_ID int  NOT NULL,
-    Druzyna2_ID int  NOT NULL,
-    CONSTRAINT Mecze_pk PRIMARY KEY (Mecz_ID)
+CREATE TABLE Games (
+    Game_ID NUMBER(3) NOT NULL,
+    Data DATE  NOT NULL,
+    Result VARCHAR2(3)  NOT NULL,
+    Team1_ID NUMBER(3)  NOT NULL,
+    Team2_ID NUMBER(3) NOT NULL,
+    CONSTRAINT Game_pk PRIMARY KEY (Game_ID)
 );
 
-CREATE TABLE Sets (
-    Set_ID SERIAL NOT NULL,
-    Mecz_ID int  NOT NULL,
-    NumerSet int  NOT NULL,
-    WynikSet_1 int  NOT NULL,
-    WynikSet_2 int  NOT NULL,
+CREATE TABLE Sets_m (
+    Set_ID NUMBER(3) NOT NULL,
+    Game_ID NUMBER(3)  NOT NULL,
+    NumerSet NUMBER(3)  NOT NULL,
+    ResultSet_1 NUMBER(3)  NOT NULL,
+    ResultSet_2 NUMBER(3)  NOT NULL,
     CONSTRAINT Sets_pk PRIMARY KEY (Set_ID)
 );
 
-CREATE TABLE Zawodnicy (
-    Zawodnik_ID SERIAL  NOT NULL,
-    Imie varchar(20)  NOT NULL,
-    Nazwisko varchar(20)  NOT NULL,
-    Druzyna_ID int  NOT NULL,
-    CONSTRAINT Zawodnicy_pk PRIMARY KEY (Zawodnik_ID)
+CREATE TABLE Players (
+    Player_ID NUMBER(3)  NOT NULL,
+    Imie VARCHAR2(20)  NOT NULL,
+    Nazwisko VARCHAR2(20)  NOT NULL,
+    Druzyna_ID NUMBER(3)  NOT NULL,
+    CONSTRAINT Player_pk PRIMARY KEY (Player_ID)
 );
 
-ALTER TABLE Gracze ADD CONSTRAINT Gracze_Mecze
-    FOREIGN KEY (Mecz_ID)
-    REFERENCES Mecze (Mecz_ID)  
+ALTER TABLE WhoPlays ADD CONSTRAINT WhoPlays_Games
+    FOREIGN KEY (Game_ID)
+    REFERENCES Games (Game_ID)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
-ALTER TABLE Gracze ADD CONSTRAINT Gracze_Zawodnicy
-    FOREIGN KEY (Zawodnik_ID)
-    REFERENCES Zawodnicy (Zawodnik_ID)  
+ALTER TABLE Players ADD CONSTRAINT Players_Zawodnicy
+    FOREIGN KEY (Player_ID)
+    REFERENCES Players (Player_ID)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
-ALTER TABLE Mecze ADD CONSTRAINT Mecze_Druzyny
+ALTER TABLE Game ADD CONSTRAINT ]
     FOREIGN KEY (Druzyna2_ID)
     REFERENCES Teams (Druzyna_ID)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
-ALTER TABLE Mecze ADD CONSTRAINT Mecze_Druzyny_1
-    FOREIGN KEY (Druzyna1_ID)
-    REFERENCES Teams (Druzyna_ID)  
+ALTER TABLE Games ADD CONSTRAINT Game_Teams_1
+    FOREIGN KEY (Team1_ID)
+    REFERENCES Teams (Team2_ID)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
-ALTER TABLE Zawodnicy ADD CONSTRAINT NalezyDoDruzyny
+ALTER TABLE Players ADD CONSTRAINT NalezyDoDruzyny
     FOREIGN KEY (Druzyna_ID)
     REFERENCES Teams (Druzyna_ID)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
-ALTER TABLE Sets ADD CONSTRAINT Sets_Mecze
-    FOREIGN KEY (Mecz_ID)
-    REFERENCES Mecze (Mecz_ID)  
+ALTER TABLE Sets_m ADD CONSTRAINT Sets_Games
+    FOREIGN KEY (Game_ID)
+    REFERENCES Games (Game_ID)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -98,21 +98,21 @@ declare
 begin
 
 	select druzyna_id into druzynag
-	from Zawodnicy where zawodnik_id=new.zawodnik_id;
+	from Players where player_id=new.player_id;
 
 	select count(*) into ile 
-	from Gracze g join Zawodnicy z on g.zawodnik_id=z.zawodnik_id 
+	from Gracze g join Players z on g.player_id=z.player_id 
 	where g.mecz_id=new.mecz_id and druzyna_id=druzynag group by druzyna_id;	
    
 	if (ile > 5) then
-    		raise exception 'Za duzo zawodnikow';
+    		raise exception 'Too many players';
   	end if;
 	
 	select druzyna1_id into druzyna1
-	from Mecze where mecz_id=new.mecz_id;
+	from Games where game_id=new.mecz_id;
 	
 	select druzyna2_id into druzyna2
-	from Mecze where mecz_id=new.mecz_id;
+	from Games where game_id=new.mecz_id;
 	
 	
 	if (druzynag != druzyna1 and druzynag != druzyna2) then
