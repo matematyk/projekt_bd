@@ -1,6 +1,6 @@
 ### Flask 
 ```
-export FLASK_APP=app.py
+export FLASK_APP=project
 flask run
 ```
 

@@ -9,7 +9,6 @@ def main():
     posts = db_c.execute(
         'select * from emp'
     ).fetchall()
-    print(posts)
 
     return render_template('index.html', posts=posts)
 

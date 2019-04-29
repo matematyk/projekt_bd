@@ -6,7 +6,7 @@ from flask.cli import with_appcontext
 
 def get_db():
     if 'db' not in g:
-        connection = cx_Oracle.connect('bp209493/<pass>@localhost/LABS')
+        connection = cx_Oracle.connect('bp209493/abc123@localhost/LABS')
         g.db = connection.cursor()
     return g.db
 
