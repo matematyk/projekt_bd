@@ -9,6 +9,7 @@ def get_db():
         connection = get_con()
         g.db = connection.cursor()
     return g.db
+    
 def get_con():
     return cx_Oracle.connect('bp209493/abc123@localhost/LABS')
 

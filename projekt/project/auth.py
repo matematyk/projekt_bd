@@ -32,6 +32,7 @@ def register():
         if error is None:
             db.prepare('INSERT INTO Users (username, password) VALUES (:username, :password)')
             db.execute( None, {'username': username, 'password': generate_password_hash(password)})
+            con.commit()
             return redirect(url_for('auth.login'))
 
         flash(error)
@@ -57,7 +58,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user[0]
-            return redirect(url_for('app'))
+            return redirect(url_for('tournament.index'))
 
         flash(error)
 
@@ -69,6 +70,9 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        con = get_db().prepare('SELECT * FROM Users WHERE User_ID = :User_ID')
-        con = con.execute( None, {'User_ID': user_id})
-        g.user = con.fetchone()
+        db = get_db()
+        con = db.prepare('SELECT * FROM Users WHERE User_ID = :User_ID')
+        user = db.execute( 
+            None, {'User_ID': user_id}
+        )
+        g.user = user.fetchone()
