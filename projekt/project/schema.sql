@@ -4,11 +4,17 @@ DROP TABLE Sets_m;
 DROP TABLE Players;
 DROP TABLE Users;
 
+CREATE SEQUENCE User_seq START WITH 1;
+
 CREATE TABLE Users (
-    User_ID NUMBER(3)  NOT NULL,
-    username VARCHAR2(40)  NOT NULL,
-    password VARCHAR2(40)  NOT NULL
+    User_ID NUMBER(10)  DEFAULT dept_seq.nextval NOT NULL,
+    Username VARCHAR2(64) NOT NULL,
+    Password VARCHAR2(93) NOT NULL
 );
+ALTER TABLE Users ADD (
+    CONSTRAINT user_pk PRIMARY KEY (User_ID)
+);
+
 
 
 CREATE TABLE Teams (

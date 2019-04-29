@@ -4,12 +4,12 @@ from flask import (
 from project.db import get_db
 
 
-bp = Blueprint('app', __name__)
+bp = Blueprint('tournament', __name__)
 
 @bp.route('/')
 def index():
     """Show all the posts, most recent first."""
-    db_c = db.get_db()
+    db_c = get_db()
     posts = db_c.execute(
         'select * from emp'
     ).fetchall()

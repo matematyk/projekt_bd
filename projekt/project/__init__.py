@@ -1,12 +1,15 @@
 import os
 
 from flask import Flask
-from . import db
-from . import auth
+from project import auth, tournament
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    app.config.from_mapping(
+            # a default secret that should be overridden by instance config
+            SECRET_KEY='dev',
+    )
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -22,6 +25,7 @@ def create_app(test_config=None):
         pass
 
     app.register_blueprint(auth.bp)
+    app.register_blueprint(tournament.bp)
     db.init_app(app)
 
     
