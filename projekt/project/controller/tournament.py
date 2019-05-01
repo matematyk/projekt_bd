@@ -29,7 +29,6 @@ def create():
         name = request.form['tournament']
         date_start = request.form['date_start']
         date_end = request.form['date_end']
-        print(date_start)
         error = None
 
         if not name:
@@ -39,7 +38,7 @@ def create():
             flash(error)
         else:
 
-            torunament = create_tournament(name, date_start, date_end)
+            create_tournament(name, date_start, date_end)
 
             return redirect(url_for('tournament.all_tournaments'))
 
