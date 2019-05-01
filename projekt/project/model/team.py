@@ -1,5 +1,4 @@
-from werkzeug.exceptions import abort
-from project.db import get_con, get_db
+from project.db import get_db
 
 TEAM_ID = 1
 TEAM_NAME = 2

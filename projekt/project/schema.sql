@@ -113,6 +113,16 @@ CREATE TABLE Players (
     CONSTRAINT Player_pk PRIMARY KEY (Player_ID)
 );
 
+
+ALTER TABLE Players ADD CONSTRAINT NalezyDoDruzyny
+    FOREIGN KEY (Team_ID)
+    REFERENCES Teams (Team_ID)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE
+;
+
+
+
 ALTER TABLE WhoPlays ADD CONSTRAINT WhoPlays_Games
     FOREIGN KEY (Game_ID)
     REFERENCES Games (Game_ID)  
@@ -141,16 +151,10 @@ ALTER TABLE Games ADD CONSTRAINT Game_Teams_1
     INITIALLY IMMEDIATE
 ;
 
-ALTER TABLE Players ADD CONSTRAINT NalezyDoDruzyny
-    FOREIGN KEY (Team_ID)
-    REFERENCES Teams (Team_ID)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
 
 
-
-INSERT INTO Tournament(Tournament_NAME, Date_start, Date_end) VALUES ('Memoriał Huberta Jerzego Wagnera', to_date('24-09-2018', 'DD-MM-YYYY'), to_date('26-09-2018', 'DD-MM-YYYY'));
+INSERT INTO Tournament(Tournament_NAME, Date_start, Date_end)
+VALUES ('Memoriał Huberta Jerzego Wagnera', to_date('24-09-2018', 'DD-MM-YYYY'), to_date('26-09-2018', 'DD-MM-YYYY'));
 INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) VALUES (1, 1, to_date('24-07-2018', 'DD-MM-YYYY'));
 INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) VALUES (2, 1, to_date('24-07-2018', 'DD-MM-YYYY'));
 INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) VALUES (3, 1, to_date('24-07-2018', 'DD-MM-YYYY'));

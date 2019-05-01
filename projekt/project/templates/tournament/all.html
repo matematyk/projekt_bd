@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <table class="table">
+       <thead>
+        <tr>
+          <th scope="col">Tournaments</th>
+          <th scope="col">Teams</th>
+        </tr>
+      </thead>
+       <tbody>
+        {% for tournaments in tournaments %}
+        <tr>
+          <th>{{ tournaments[1] }}</th>
+          <th><a href="{{ url_for('tournament.show_tournament', id=tournaments[0]) }}">link</a></th>
+          <th>{{ tournaments[2] }}</th>
+        </tr>
+        {% if not loop.last %}
+        <hr>
+      {% endif %}
+  {% endfor %}
+       </tbody>
+    </table>
+
+{% endblock %}
