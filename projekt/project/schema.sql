@@ -3,41 +3,91 @@ DROP TABLE Games;
 DROP TABLE Sets_m;
 DROP TABLE Players;
 DROP TABLE Users;
+DROP TABLE Tournament_Application;
+DROP TABLE Tournament;
+
+
+DROP SEQUENCE User_seq;
+DROP Tournament_Application_seq User_seq;
+DROP Tournament_seq Tournament_seq;
 
 CREATE SEQUENCE User_seq START WITH 1;
+CREATE SEQUENCE Tournament_Application_seq START WITH 1;
+CREATE SEQUENCE Tournament_seq START WITH 1;
 
 CREATE TABLE Users (
     User_ID NUMBER(10)  DEFAULT User_seq.nextval NOT NULL,
     Username VARCHAR2(64) NOT NULL,
-    Password VARCHAR2(94) NOT NULL
+    Password VARCHAR2(94) NOT NULL,
+    Status NUMBER(1) NOT NULL,
 );
+
 ALTER TABLE Users ADD (
     CONSTRAINT user_pk PRIMARY KEY (User_ID)
 );
 
+CREATE TABLE Tournament (
+   Tournament_ID NUMBER(10) DEFAULT Tournament_seq.nextval NOT NULL,
+   Tournament_NAME VARCHAR2(40) NOT NULL,
+   Date_start DATE NOT NULL,
+   Date_end DATE NOT NULL,
+
+   CONSTRAINT Tournament_pk PRIMARY KEY (Tournament_ID)
+)
+
+CREATE TABLE Tournament_Application (
+    Application_ID NUMBER(10) DEFAULT Tournament_Application_seq.nextval NOT NULL,
+    Team_ID NUMBER(10)  NOT NULL,
+    Tournament_ID NUMBER(10) NOT NULL,
+    Date_application DATE NOT NULL
+)
+
+
+ALTER TABLE Tournament_Application ADD CONSTRAINT Tournament_Application_Ref
+    FOREIGN KEY (Team_ID)
+    REFERENCES Teams (Team_ID)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE
+;
+
+ALTER TABLE Tournament_Application ADD CONSTRAINT Tournament_Application_Tour
+    FOREIGN KEY (Tournament_ID)
+    REFERENCES Tournament (Tournament_ID)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE
+;
 
 
 CREATE TABLE Teams (
-    Team_ID NUMBER(3)  NOT NULL,
+    Team_ID NUMBER(10)  NOT NULL,
     TeamName VARCHAR2(40)  NOT NULL,
     CONSTRAINT Druzyny_pk PRIMARY KEY (Team_ID)
 );
 
 CREATE TABLE WhoPlays (
-    Game_ID NUMBER(3) NOT NULL,
+    Game_ID NUMBER(10) NOT NULL,
     Player_ID NUMBER(3)  NOT NULL,
     CONSTRAINT WhoPlays_pk PRIMARY KEY (Game_ID, Player_ID)
 );
 
 
 CREATE TABLE Games (
-    Game_ID NUMBER(3) NOT NULL,
+    Game_ID NUMBER(10) NOT NULL,
     Data DATE  NOT NULL,
     Result VARCHAR2(3)  NOT NULL,
-    Team1_ID NUMBER(3)  NOT NULL,
-    Team2_ID NUMBER(3) NOT NULL,
+    Team1_ID NUMBER(10)  NOT NULL,
+    Team2_ID NUMBER(10) NOT NULL,
+    Tournament NUMBER(10)  NOT NULL,
     CONSTRAINT Game_pk PRIMARY KEY (Game_ID)
 );
+
+ALTER TABLE Games ADD CONSTRAINT Game_Teams_2
+    FOREIGN KEY (Team2_ID)
+    REFERENCES Teams (Team_ID)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE
+;
+
 
 CREATE TABLE Sets_m (
     Set_ID NUMBER(3) NOT NULL,
@@ -48,8 +98,15 @@ CREATE TABLE Sets_m (
     CONSTRAINT Sets_pk PRIMARY KEY (Set_ID)
 );
 
+ALTER TABLE Sets_m ADD CONSTRAINT Sets_Games
+    FOREIGN KEY (Game_ID)
+    REFERENCES Games (Game_ID)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE
+;
+
 CREATE TABLE Players (
-    Player_ID NUMBER(3)  NOT NULL,
+    Player_ID NUMBER(10)  NOT NULL,
     FirstName VARCHAR2(20) NOT NULL,
     LastName VARCHAR2(20)  NOT NULL,
     Team_ID NUMBER(3)  NOT NULL,
@@ -91,12 +148,14 @@ ALTER TABLE Players ADD CONSTRAINT NalezyDoDruzyny
     INITIALLY IMMEDIATE
 ;
 
-ALTER TABLE Sets_m ADD CONSTRAINT Sets_Games
-    FOREIGN KEY (Game_ID)
-    REFERENCES Games (Game_ID)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
+
+
+INSERT INTO Tournament(Tournament_NAME, Date_start, Date_end) VALUES ('Memoriał Huberta Jerzego Wagnera', to_date('24-09-2018', 'DD-MM-YYYY'), to_date('26-09-2018', 'DD-MM-YYYY'));
+INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) VALUES (1, 1, to_date('24-07-2018', 'DD-MM-YYYY'));
+INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) VALUES (2, 1, to_date('24-07-2018', 'DD-MM-YYYY'));
+INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) VALUES (3, 1, to_date('24-07-2018', 'DD-MM-YYYY'));
+INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) VALUES (4, 1, to_date('24-07-2018', 'DD-MM-YYYY'));
+
 
 
 INSERT INTO Teams(Team_ID, TeamName) VALUES (1,'Francja');

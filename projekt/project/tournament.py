@@ -31,5 +31,4 @@ def show_teams():
 def show_players(id):
     players = get_teams_players(id)
 
-
     return render_template('team/players.html', players=players)
