@@ -54,6 +54,9 @@ CREATE TABLE Tournament_Application (
     Date_application DATE NOT NULL
 )
 
+ALTER TABLE Tournament_Application
+ADD CONSTRAINT Check_DATE check (Date_application >= CURRENT_DATE);
+
 
 ALTER TABLE Tournament_Application ADD CONSTRAINT Tournament_Application_Ref
     FOREIGN KEY (Team_ID)
@@ -172,6 +175,7 @@ INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) VAL
 
 
 
+
 --Polska        3:0 Kanada
 INSERT INTO Games(Date_game, Result, Team1_ID, Team2_ID)
 values (1, to_date('24-08-2018', 'DD-MM-YYYY'), '3:0', 4, 2 );
@@ -234,3 +238,18 @@ INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (18, 'Paweł
 INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (19, 'Grzegorz' , 'Łomacz' , 4);
 INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (20, 'Aleksander' , 'Śliwka' , 4);
 INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (21, 'Mateusz' , 'Bieniek' , 4);
+
+CREATE OR REPLACE TRIGGER trg_check_dates
+  BEFORE INSERT OR UPDATE ON Tournament_Application
+  FOR EACH ROW
+DECLARE
+  data_startu Tournament.Date_start%TYPE;
+BEGIN
+        select Date_start into data_startu from Tournament ta where ta.Tournament_ID = :new.Tournament_ID;
+        IF( :new.Date_application >= data_startu )
+        THEN
+             RAISE_APPLICATION_ERROR( -20001,
+              'Invalid Date_start: Date_start must be lower than the current date' ||
+              to_char( :new.Date_application, 'YYYY-MM-DD HH24:MI:SS' ) );
+        END IF;
+END;

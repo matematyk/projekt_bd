@@ -15,7 +15,7 @@
           <select class="custom-select" name="tournament">
           {% for tournament in tournaments %}
             <option value="{{ tournament[0] }}">
-              <th>{{ tournament[1] }}</th>
+              {{ tournament[1] }} Data:startu {{ tournament[2].strftime("%m/%d/%Y")}} Data:konca {{ tournament[3].strftime("%m/%d/%Y")}}
             </option>
             {% endfor %}
           </select>
