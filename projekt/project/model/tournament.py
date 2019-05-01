@@ -31,8 +31,8 @@ def get_tournament(tournament_id):
 
 
 def create_tournament(name, date_start, date_end):
-    db = get_db()
     con = get_con()
+    db = con.cursor()
 
     db.prepare("""
             INSERT INTO Tournament(Tournament_NAME, Date_start, Date_end)
