@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}New Tournament{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <form method="post">
+    <label for="team">Name Team</label>
+        <input name="team" value="{{ request.form['team'] }}" required>
+    <input type="submit" value="Save">
+  </form>
+
+
+</div>
+{% endblock %}

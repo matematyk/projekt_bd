@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}New Tournament Application{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <form method="post">
+      <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text"  for="tournament">tournament </label>
+          </div>
+          <select class="custom-select" name="tournament">
+          {% for tournament in tournaments %}
+            <option value="{{ tournament[0] }}">
+              <th>{{ tournament[1] }}</th>
+            </option>
+            {% endfor %}
+          </select>
+        <div class="input-group-prepend">
+            <label class="input-group-text"  for="team">add Team </label>
+          </div>
+          <select class="custom-select" name="team">
+          {% for team in teams %}
+            <option value="{{ team[0] }}">
+              {{ team[1] }}
+            </option>
+            {% endfor %}
+          </select>
+        <input class="btn btn-info" type="submit" value="Save">
+      </div>
+  </form>
+
+
+</div>
+{% endblock %}

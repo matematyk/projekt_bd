@@ -1,9 +1,11 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 
 from project.db import get_db, get_con
+from project.model.auth import create_user
+
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -21,7 +23,7 @@ def register():
             error = 'Username is required.'
         elif not password:
             error = 'Password is required.'
-        db.prepare('SELECT User_ID FROM Users WHERE username = :username' )
+        db.prepare('SELECT User_ID FROM Users WHERE username = :username')
         res = db.execute(
             None, {'username': username}
         ).fetchone()
@@ -29,9 +31,7 @@ def register():
             error = 'User {} is already registered.'.format(username)
 
         if error is None:
-            db.prepare('INSERT INTO Users (username, password) VALUES (:username, :password)')
-            db.execute( None, {'username': username, 'password': generate_password_hash(password)})
-            con.commit()
+            create_user(username, password, status=1)
             return redirect(url_for('auth.login'))
 
         flash(error)
@@ -80,7 +80,7 @@ def load_logged_in_user():
         g.user = None
     else:
         db = get_db()
-        con = db.prepare('SELECT * FROM Users WHERE User_ID = :User_ID')
+        db.prepare('SELECT * FROM Users WHERE User_ID = :User_ID')
         user = db.execute( 
             None, {'User_ID': user_id}
         )

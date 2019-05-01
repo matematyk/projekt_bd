@@ -5,15 +5,17 @@
     <table class="table">
        <thead>
         <tr>
-          <th scope="col">Team</th>
-          <th scope="col">Players</th>
+          <th scope="col">Tournaments</th>
+          <th scope="col">Teams</th>
+          <th scope="col">Date of Application</th>
         </tr>
       </thead>
        <tbody>
-        {% for team in teams %}
+        {% for team in teams_for %}
         <tr>
           <th>{{ team[1] }}</th>
-          <th><a href="{{ url_for('team.show_players', id=team[0]) }}">link</a></th>
+          <th><a href="{{ url_for('tournament.show_tournament', id=team[0]) }}">link</a></th>
+          <th>{{ team[2] }}</th>
         </tr>
         {% if not loop.last %}
         <hr>

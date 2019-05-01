@@ -1,7 +1,9 @@
 import os
 
 from flask import Flask
-from project import auth, tournament, db
+from project import db
+from project.controller import tournament, auth, team
+
 
 def create_app(test_config=None):
     # create and configure the app
@@ -26,7 +28,7 @@ def create_app(test_config=None):
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(tournament.bp)
+    app.register_blueprint(team.bp)
     db.init_app(app)
 
-    
     return app
