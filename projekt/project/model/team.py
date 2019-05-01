@@ -25,12 +25,13 @@ def get_teams_players(team_id):
 
     return players.fetchall()
 
-def create_application(team_name):
+
+def create_team(team_name):
     con = get_con()
     db = con.cursor()
 
     db.prepare("""
-            INSERT INTO Teams(TeamName) VALUES (:team_name);
+            INSERT INTO Teams(TeamName) VALUES (:team_name)
             """)
     db.execute(None, {'team_name': team_name})
 
