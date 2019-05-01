@@ -1,4 +1,4 @@
-from project.db import get_db
+from project.db import get_db, get_con
 
 TEAM_ID = 1
 TEAM_NAME = 2
@@ -24,3 +24,14 @@ def get_teams_players(team_id):
     )
 
     return players.fetchall()
+
+def create_application(team_name):
+    con = get_con()
+    db = con.cursor()
+
+    db.prepare("""
+            INSERT INTO Teams(TeamName) VALUES (:team_name);
+            """)
+    db.execute(None, {'team_name': team_name})
+
+    con.commit()

@@ -1,29 +1,41 @@
 DROP TABLE Gracze;
-DROP TABLE Games;
+DROP TABLE WhoPlays;
 DROP TABLE Sets_m;
 DROP TABLE Players;
 DROP TABLE Users;
 DROP TABLE Tournament_Application;
 DROP TABLE Tournament;
-
+DROP TABLE Teams;
+DROP TABLE Games;
 
 DROP SEQUENCE User_seq;
 DROP SEQUENCE Tournament_Application_seq;
 DROP SEQUENCE Tournament_seq;
+DROP SEQUENCE Team_seq;
+DROP SEQUENCE Games_seq;
 
 CREATE SEQUENCE User_seq START WITH 1;
 CREATE SEQUENCE Tournament_Application_seq START WITH 1;
 CREATE SEQUENCE Tournament_seq START WITH 1;
+CREATE SEQUENCE Team_seq START WITH 1;
+CREATE SEQUENCE Games_seq START WITH 1;
 
 CREATE TABLE Users (
     User_ID NUMBER(10)  DEFAULT User_seq.nextval NOT NULL,
     Username VARCHAR2(64) NOT NULL,
     Password VARCHAR2(94) NOT NULL,
-    Status NUMBER(1) NOT NULL,
+    Status NUMBER(1) NOT NULL
 );
 
 ALTER TABLE Users ADD (
     CONSTRAINT user_pk PRIMARY KEY (User_ID)
+);
+
+
+CREATE TABLE Teams (
+    Team_ID NUMBER(10) DEFAULT Team_seq.nextval NOT NULL,
+    TeamName VARCHAR2(40)  NOT NULL,
+    CONSTRAINT Druzyny_pk PRIMARY KEY (Team_ID)
 );
 
 CREATE TABLE Tournament (
@@ -58,11 +70,7 @@ ALTER TABLE Tournament_Application ADD CONSTRAINT Tournament_Application_Tour
 ;
 
 
-CREATE TABLE Teams (
-    Team_ID NUMBER(10)  NOT NULL,
-    TeamName VARCHAR2(40)  NOT NULL,
-    CONSTRAINT Druzyny_pk PRIMARY KEY (Team_ID)
-);
+-- WHO PLAYS
 
 CREATE TABLE WhoPlays (
     Game_ID NUMBER(10) NOT NULL,
@@ -70,9 +78,17 @@ CREATE TABLE WhoPlays (
     CONSTRAINT WhoPlays_pk PRIMARY KEY (Game_ID, Player_ID)
 );
 
+ALTER TABLE WhoPlays ADD CONSTRAINT WhoPlays_Games
+    FOREIGN KEY (Game_ID)
+    REFERENCES Games (Game_ID)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE
+;
+
+-- GAMES
 
 CREATE TABLE Games (
-    Game_ID NUMBER(10) NOT NULL,
+    Game_ID NUMBER(10) DEFAULT Games_seq.nextval NOT NULL
     Data DATE  NOT NULL,
     Result VARCHAR2(3)  NOT NULL,
     Team1_ID NUMBER(10)  NOT NULL,
@@ -87,6 +103,16 @@ ALTER TABLE Games ADD CONSTRAINT Game_Teams_2
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
+
+ALTER TABLE Games ADD CONSTRAINT Game_Teams_1
+    FOREIGN KEY (Team1_ID)
+    REFERENCES Teams (Team_ID)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE
+;
+
+
+-- SETS
 
 
 CREATE TABLE Sets_m (
@@ -105,6 +131,8 @@ ALTER TABLE Sets_m ADD CONSTRAINT Sets_Games
     INITIALLY IMMEDIATE
 ;
 
+-- PLAYERS
+
 CREATE TABLE Players (
     Player_ID NUMBER(10)  NOT NULL,
     FirstName VARCHAR2(20) NOT NULL,
@@ -112,6 +140,7 @@ CREATE TABLE Players (
     Team_ID NUMBER(3)  NOT NULL,
     CONSTRAINT Player_pk PRIMARY KEY (Player_ID)
 );
+
 
 
 ALTER TABLE Players ADD CONSTRAINT NalezyDoDruzyny
@@ -123,35 +152,15 @@ ALTER TABLE Players ADD CONSTRAINT NalezyDoDruzyny
 
 
 
-ALTER TABLE WhoPlays ADD CONSTRAINT WhoPlays_Games
-    FOREIGN KEY (Game_ID)
-    REFERENCES Games (Game_ID)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
-ALTER TABLE Players ADD CONSTRAINT Players_Zawodnicy
-    FOREIGN KEY (Player_ID)
-    REFERENCES Players (Player_ID)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
-ALTER TABLE Game ADD CONSTRAINT Game_Teams_2
-    FOREIGN KEY (Team2_ID)
-    REFERENCES Teams (Team_ID)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
-ALTER TABLE Games ADD CONSTRAINT Game_Teams_1
-    FOREIGN KEY (Team1_ID)
-    REFERENCES Teams (Team_ID)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
 
 
+
+
+
+INSERT INTO Teams(Team_ID, TeamName) VALUES (1,'Francja');
+INSERT INTO Teams(Team_ID, TeamName) VALUES (2,'Kanada');
+INSERT INTO Teams(Team_ID, TeamName) VALUES (3,'Rosja');
+INSERT INTO Teams(Team_ID, TeamName) VALUES (4,'Polska');
 
 INSERT INTO Tournament(Tournament_NAME, Date_start, Date_end)
 VALUES ('Memoriał Huberta Jerzego Wagnera', to_date('24-09-2018', 'DD-MM-YYYY'), to_date('26-09-2018', 'DD-MM-YYYY'));
@@ -162,29 +171,25 @@ INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) VAL
 
 
 
-INSERT INTO Teams(Team_ID, TeamName) VALUES (1,'Francja');
-INSERT INTO Teams(Team_ID, TeamName) VALUES (2,'Kanada');
-INSERT INTO Teams(Team_ID, TeamName) VALUES (3,'Rosja');
-INSERT INTO Teams(Team_ID, TeamName) VALUES (4,'Polska');
 
 --Polska        3:0 Kanada
-INSERT INTO Games(Game_ID, Data, Result, Team1_ID, Team2_ID) 
+INSERT INTO Games(Date_game, Result, Team1_ID, Team2_ID)
 values (1, to_date('24-08-2018', 'DD-MM-YYYY'), '3:0', 4, 2 );
 --Francja   1:3      Rosja
-INSERT INTO Games(Game_ID, Data, Result, Team1_ID, Team2_ID) 
+INSERT INTO Games(Date_game, Result, Team1_ID, Team2_ID)
 values (2, to_date('24-08-2018', 'DD-MM-YYYY'), '1:3', 1, 3 );
 --Polska    3:2      Francja
-INSERT INTO Games(Game_ID, Data, Result, Team1_ID, Team2_ID) 
+INSERT INTO Games(Date_game, Result, Team1_ID, Team2_ID)
 values (3, to_date('25-08-2018', 'DD-MM-YYYY'), '3:2', 4, 1 );
 --Rosja     3:2      Kanada
-INSERT INTO Games(Game_ID, Data, Result, Team1_ID, Team2_ID) 
+INSERT INTO Games(Date_game, Result, Team1_ID, Team2_ID)
 values (4, to_date('25-08-2018', 'DD-MM-YYYY'), '3:2', 3, 2 );
 
 --Francja   3:1      Kanada
-INSERT INTO Games(Game_ID, Data, Result, Team1_ID, Team2_ID) 
+INSERT INTO Games(Date_game, Result, Team1_ID, Team2_ID)
 values (5, to_date('26-08-2018', 'DD-MM-YYYY'), '3:1', 1, 2 );
 --Polska    3:2      Rosja
-INSERT INTO Games(Game_ID, Data, Result, Team1_ID, Team2_ID) 
+INSERT INTO Games(Date_game, Result, Team1_ID, Team2_ID)
 values (6, to_date('26-08-2018', 'DD-MM-YYYY'), '3:2', 4, 3 );
 
 
