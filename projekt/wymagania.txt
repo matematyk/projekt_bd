@@ -13,9 +13,9 @@ Oprócz bazy danych należy zaimplementować niewielką aplikację dla dwóch ka
 
 Aplikacja powinna umożliwiać organizatorom:
 
-    Dokonywanie zgłoszeń drużyn do turnieju (czyli wprowadzanie drużyn do bazy danych).
+    + Dokonywanie zgłoszeń drużyn do turnieju (czyli wprowadzanie drużyn do bazy danych).
     + Podawanie listy zawodników drużyny.
-    Zamknięcie zgłoszeń (być może przez termin).
+    + Zamknięcie zgłoszeń (być może przez termin).
     Ustalanie meczów do rozegrania.
     Zgłaszanie składu drużyn na mecz (do momentu rozegrania meczu).
     Rozegranie meczu: wpisanie wyniku itp. 

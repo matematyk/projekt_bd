@@ -55,7 +55,7 @@ def create_tournament(name, date_start, date_end):
 def create_application(team_id, tournament_id, date):
     con = get_con()
     db = con.cursor()
-
+    print(team_id, tournament_id, date)
     db.prepare("""
             INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) 
             VALUES (:team_id, :tournament_id, to_date(:date_s, 'YYYY-MM-DD'))
