@@ -30,6 +30,15 @@ def get_tournament(tournament_id):
     return tournament.fetchall()
 
 
+def get_all_tournaments():
+    db_c = get_db()
+    tournaments = db_c.execute(
+        """select * from Tournament t"""
+    ).fetchall()
+
+    return tournaments
+
+
 def create_tournament(name, date_start, date_end):
     con = get_con()
     db = con.cursor()
@@ -39,5 +48,18 @@ def create_tournament(name, date_start, date_end):
             VALUES (:name, to_date(:date_start, 'YYYY-MM-DD'), to_date(:date_end, 'YYYY-MM-DD'))
             """)
     db.execute(None, {'name': name, 'date_start': date_start, 'date_end': date_end})
+
+    con.commit()
+
+
+def create_application(team_id, tournament_id, date):
+    con = get_con()
+    db = con.cursor()
+
+    db.prepare("""
+            INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) 
+            VALUES (:team_id, :tournament_id, to_date(:date_s, 'YYYY-MM-DD'))
+            """)
+    db.execute(None, {'team_id': team_id, 'tournament_id': tournament_id, 'date_s': date})
 
     con.commit()

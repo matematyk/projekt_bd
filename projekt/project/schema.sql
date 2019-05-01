@@ -8,8 +8,8 @@ DROP TABLE Tournament;
 
 
 DROP SEQUENCE User_seq;
-DROP Tournament_Application_seq User_seq;
-DROP Tournament_seq Tournament_seq;
+DROP SEQUENCE Tournament_Application_seq;
+DROP SEQUENCE Tournament_seq;
 
 CREATE SEQUENCE User_seq START WITH 1;
 CREATE SEQUENCE Tournament_Application_seq START WITH 1;

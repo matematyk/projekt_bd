@@ -1,8 +1,11 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Projekt Bazy</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
+<html>
+<head>
+  <title>{% block title %}{% endblock %} - Projekt Bazy</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">Project Bazy Danych</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,14 +15,16 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li>
-        <a class="nav-link" href="{{ url_for('team.index') }}">teams</a>
+        <a class="nav-link" href="{{ url_for('team.index') }}">Zespoły</a>
       </li>
       <li>
-        <a class="nav-link" href="{{ url_for('tournament.create') }}">tournament.create</a>
+        <a class="nav-link" href="{{ url_for('tournament.new_application') }}">Dodaj zespół do turnieju</a>
+      </li>
+      <li>
+        <a class="nav-link" href="{{ url_for('tournament.create') }}">Dodaj turniej</a>
       </li>
        <li>
-        <a class="nav-link" href="{{ url_for('tournament.all_tournaments') }}">tournament.all_tournaments </a>
-      </li>
+        <a class="nav-link" href="{{ url_for('tournament.all_tournaments') }}">Wszystkie turnieje </a>
       </li>
       {% if g.user %}
       <li class="nav-item">
@@ -49,3 +54,5 @@
     {% block content %}{% endblock %}
     </div>
 </section>
+</body>
+</html>
