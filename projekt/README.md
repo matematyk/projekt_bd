@@ -25,3 +25,7 @@ RUN-> Edit Configuration
 ```
 
 [Image](images/setting_pycharm.png)
+
+## Dokumentacja:
+http://flask.pocoo.org/docs/1.0/tutorial/blog/
+https://www.tutorialspoint.com/flask

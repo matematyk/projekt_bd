@@ -47,6 +47,10 @@ def create():
         else:
 
             create_tournament(name, date_start, date_end)
+
+            flash('Dodałeś nowy turniej. Gratulacje!')
+
+
             return redirect(url_for('tournament.all_tournaments'))
 
     return render_template('tournament/create.html')
@@ -65,6 +69,7 @@ def new_application():
         now = datetime.now().strftime("%Y-%m-%d")
 
         create_application(tournaments, team, now)
+        flash('Dodałeś nowe zgłoszenie turniejowe. Gratulacje!')
 
         return redirect(url_for('tournament.new_application'))
 
