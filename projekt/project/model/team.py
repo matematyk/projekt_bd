@@ -16,7 +16,7 @@ def get_teams():
 def get_teams_players(team_id):
     db_c = get_db()
     db_c.prepare("""select * from Teams t
-            left join Players p
+            join Players p
             on p.Team_ID = t.Team_ID
             where t.TEAM_ID = :team_id""")
     players = db_c.execute(

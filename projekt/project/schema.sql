@@ -24,7 +24,7 @@ CREATE TABLE Users (
     User_ID NUMBER(10)  DEFAULT User_seq.nextval NOT NULL,
     Username VARCHAR2(64) NOT NULL,
     Password VARCHAR2(94) NOT NULL,
-    Status NUMBER(1) NOT NULL
+    Status VARCHAR2(7) NOT NULL
 );
 
 ALTER TABLE Users ADD (
