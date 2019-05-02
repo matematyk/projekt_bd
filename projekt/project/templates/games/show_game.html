@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <table class="table">
+       <thead>
+        <tr>
+          <th scope="col">Firstname</th>
+          <th scope="col">Lastname</th>
+        </tr>
+      </thead>
+       <tbody>
+        {% for game in games %}
+        <tr>
+          <th>{{ game[0] }}</th>
+          <th>{{ game[1] }}</th>
+          <th>{{ game[2] }}</th>
+          <th>{{ game[3] }}</th>
+        </tr>
+
+  {% endfor %}
+       </tbody>
+    </table>
+{% endblock %}

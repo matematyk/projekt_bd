@@ -3,13 +3,17 @@ from flask import (
 )
 from project.model.tournament import *
 from project.model.team import get_teams
+from project.controller.auth import requires_roles, login_required
 
-import datetime
+
+from datetime import datetime
 
 bp = Blueprint('tournament', __name__)
 
 
 @bp.route('/tournaments/all')
+@login_required
+@requires_roles('admin')
 def all_tournaments():
     tournaments = get_tournaments()
 
@@ -17,6 +21,8 @@ def all_tournaments():
 
 
 @bp.route('/tournament/<int:id>/show', methods=('POST', 'GET'))
+@login_required
+@requires_roles('admin')
 def show_tournament(id):
     teams = get_tournament(id)
 
@@ -24,6 +30,8 @@ def show_tournament(id):
 
 
 @bp.route('/tournament/create', methods=('GET', 'POST'))
+@login_required
+@requires_roles('admin')
 def create():
     if request.method == 'POST':
         name = request.form['tournament']
@@ -39,7 +47,9 @@ def create():
         else:
 
             create_tournament(name, date_start, date_end)
+
             flash('Dodałeś nowy turniej. Gratulacje!')
+
 
             return redirect(url_for('tournament.all_tournaments'))
 
@@ -47,6 +57,8 @@ def create():
 
 
 @bp.route('/tournament/new_application', methods=('GET', 'POST'))
+@login_required
+@requires_roles('admin')
 def new_application():
     tournaments = get_all_tournaments()
     teams = get_teams()
@@ -54,7 +66,7 @@ def new_application():
     if request.method == 'POST':
         tournaments = request.form['tournament']
         team = request.form['team']
-        now = datetime.datetime.now().strftime("%Y-%m-%d")
+        now = datetime.now().strftime("%Y-%m-%d")
 
         create_application(tournaments, team, now)
         flash('Dodałeś nowe zgłoszenie turniejowe. Gratulacje!')
