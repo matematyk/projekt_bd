@@ -31,7 +31,7 @@ def register():
 
         if error is None:
             create_user(username, password, status='admin')
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('auth.user_page'))
 
         flash(error)
 
@@ -65,7 +65,7 @@ def login():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('auth.login'))
 
 
 @bp.before_app_request
