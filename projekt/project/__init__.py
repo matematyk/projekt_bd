@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 from project import db
-from project.controller import tournament, auth, team
+from project.controller import tournament, auth, team, games
 
 
 def create_app(test_config=None):
@@ -29,6 +29,7 @@ def create_app(test_config=None):
     app.register_blueprint(auth.bp)
     app.register_blueprint(tournament.bp)
     app.register_blueprint(team.bp)
+    app.register_blueprint(games.bp)
     db.init_app(app)
 
     return app

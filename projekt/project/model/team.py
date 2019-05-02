@@ -6,19 +6,27 @@ TEAM_NAME = 2
 
 def get_teams():
     db_c = get_db()
-    teams = db_c.execute(
-        'select * from Teams'
-    ).fetchall()
+    teams = db_c.execute("""
+            SELECT
+              *
+            FROM Teams
+            ORDER BY Teams.Team_ID
+    
+    """).fetchall()
 
     return teams
 
 
 def get_teams_players(team_id):
     db_c = get_db()
-    db_c.prepare("""select * from Teams t
-            left join Players p
-            on p.Team_ID = t.Team_ID
-            where t.TEAM_ID = :team_id""")
+    db_c.prepare("""
+            SELECT
+              *
+            FROM Teams t
+            LEFT JOIN Players p
+              ON p.Team_ID = t.Team_ID
+            WHERE t.TEAM_ID = :team_id
+            """)
     players = db_c.execute(
         None, {'team_id': team_id}
     )
@@ -31,7 +39,8 @@ def create_team(team_name):
     db = con.cursor()
 
     db.prepare("""
-            INSERT INTO Teams(TeamName) VALUES (:team_name)
+            INSERT INTO Teams (TeamName)
+                VALUES (:team_name)
             """)
     db.execute(None, {'team_name': team_name})
 

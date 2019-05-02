@@ -7,15 +7,13 @@
         <tr>
           <th scope="col">Team</th>
           <th scope="col">Players</th>
-          <th scope="col">Games</th>
         </tr>
       </thead>
        <tbody>
-        {% for team in teams %}
+        {% for game in games %}
         <tr>
-          <th>{{ team[1] }}</th>
-          <th><a href="{{ url_for('team.show_players', id=team[0]) }}">link</a></th>
-          <th><a href="{{ url_for('games.show_game_for_team', id=team[0]) }}">link</a></th>
+          <th>{{ game[1] }}</th>
+          <th><a href="{{ url_for('team.show_players', id=game[0]) }}">link</a></th>
         </tr>
         {% if not loop.last %}
         <hr>

@@ -3,12 +3,14 @@ from flask import (
 )
 
 from project.model.team import *
-
+from project.controller.auth import requires_roles, login_required
 
 bp = Blueprint('team', __name__)
 
 
 @bp.route('/teams')
+@login_required
+@requires_roles('admin')
 def index():
     """Show all the teams"""
     teams = get_teams()
@@ -17,6 +19,8 @@ def index():
 
 
 @bp.route('/team/<int:id>/show')
+@login_required
+@requires_roles('admin', 'kibic')
 def show_players(id):
     players = get_teams_players(id)
 
@@ -24,6 +28,8 @@ def show_players(id):
 
 
 @bp.route('/teams/add', methods=('POST', 'GET'))
+@login_required
+@requires_roles('admin')
 def add_team():
     if request.method == 'POST':
         team_name = request.form['team']
