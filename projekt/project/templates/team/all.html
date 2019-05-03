@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <table class="table">
+    <table class="table table table-striped table-bordered">
        <thead>
         <tr>
           <th scope="col">Team</th>
@@ -17,10 +17,7 @@
           <th><a href="{{ url_for('team.show_players', id=team[0]) }}">link</a></th>
           <th><a href="{{ url_for('games.show_game_for_team', id=team[0]) }}">link</a></th>
         </tr>
-        {% if not loop.last %}
-        <hr>
-      {% endif %}
-  {% endfor %}
+        {% endfor %}
        </tbody>
     </table>
 
