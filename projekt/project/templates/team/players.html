@@ -7,13 +7,15 @@
         <tr>
           <th scope="col">Firstname</th>
           <th scope="col">Lastname</th>
+          <th scope="col">TeamName</th>
         </tr>
       </thead>
        <tbody>
         {% for player in players %}
         <tr>
-          <th>{{ player[3] }}</th>
-          <th>{{ player[4] }}</th>
+          <th>{{ player['firstname'] }}</th>
+          <th>{{ player['lastname'] }}</th>
+          <th>{{ player['teamname'] }}</th>
         </tr>
 
   {% endfor %}

@@ -13,14 +13,11 @@
        <tbody>
         {% for game in games %}
         <tr>
-          <th>{{ game[1] }}</th>
-          <th>{{ game[2] }}</th>
-          <th><a href="{{ url_for('games.show_who_play', id=game[0]) }}">link</a></th>
+          <th>{{ game['result'] }}</th>
+          <th>{{ game['vs'] }}</th>
+          <th><a href="{{ url_for('games.show_who_play', id=game['game_id']) }}">link</a></th>
         </tr>
-        {% if not loop.last %}
-        <hr>
-      {% endif %}
-  {% endfor %}
+        {% endfor %}
        </tbody>
     </table>
 

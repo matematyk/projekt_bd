@@ -12,9 +12,9 @@
        <tbody>
         {% for player in players %}
         <tr>
-          <th>{{ player[1] }}</th>
-          <th>{{ player[2] }}</th>
-          <th>{{ player[3] }}</th>
+          <th>{{ player['firstname'] }}</th>
+          <th>{{ player['lastname'] }}</th>
+          <th>{{ player['team_id'] }}</th>
         </tr>
 
   {% endfor %}
