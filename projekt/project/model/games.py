@@ -26,7 +26,7 @@ def get_games_team(team_id):
             SELECT
               g.game_id,
               g.result,
-              LISTAGG (s.ResultSet_1 | | ':' | | s.ResultSet_2, ', ') WITHIN GROUP (ORDER BY g.game_id) "Result",
+              LISTAGG (s.ResultSet_1 | | ':' | | s.ResultSet_2, ', ') WITHIN GROUP (ORDER BY g.game_id),
               t1.TeamName | | '-' | | t2.TeamName
             FROM Games g
             JOIN Teams t1

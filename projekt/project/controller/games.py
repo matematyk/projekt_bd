@@ -1,8 +1,12 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from project.controller.auth import requires_roles, login_required
-from project.model.games import  get_games, get_games_team, get_who_plays
+from project.controller.auth import (
+    requires_roles, login_required
+)
+from project.model.games import (
+    get_games, get_games_team, get_who_plays
+)
 
 bp = Blueprint('games', __name__)
 
