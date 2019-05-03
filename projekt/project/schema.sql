@@ -1,4 +1,3 @@
-DROP TABLE Gracze;
 DROP TABLE WhoPlays;
 DROP TABLE Sets_m;
 DROP TABLE Players;
@@ -99,7 +98,9 @@ ALTER TABLE WhoPlays ADD CONSTRAINT WhoPlays_Games
     INITIALLY IMMEDIATE
 ;
 
--- GAMES
+INSERT INTO WhoPlays(Game_ID, Player_ID) VALUES (1, 1);
+INSERT INTO WhoPlays(Game_ID, Player_ID) VALUES (1, 2);
+INSERT INTO WhoPlays(Game_ID, Player_ID) VALUES (1, 3);
 
 CREATE TABLE Games (
     Game_ID NUMBER(10) DEFAULT Games_seq.nextval NOT NULL,
@@ -151,7 +152,7 @@ CREATE TABLE Players (
     Player_ID NUMBER(10) DEFAULT Player_ID_seq.nextval NOT NULL,
     FirstName VARCHAR2(20) NOT NULL,
     LastName VARCHAR2(20)  NOT NULL,
-    Team_ID NUMBER(3)  NOT NULL,
+    Team_ID NUMBER(10)  NOT NULL,
     CONSTRAINT Player_pk PRIMARY KEY (Player_ID)
 );
 
@@ -222,7 +223,7 @@ INSERT INTO Sets_m(Game_ID, NumerSet, ResultSet_1, ResultSet_2) VALUES (3 ,4, 25
 INSERT INTO Sets_m(Game_ID, NumerSet, ResultSet_1, ResultSet_2) VALUES (3 ,5, 15, 13);
 
 --
-INSERT INTO Players(FirstName, LastName, Team_ID) VALUES (1, 'Artur' , 'Szalpuk' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Artur' , 'Szalpuk' , 4);
 INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Jakub' , 'Kochanowski' , 4);
 INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Piotr' , 'Nowakowski' , 4);
 INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Jenia' , 'Grebennikov' , 1);

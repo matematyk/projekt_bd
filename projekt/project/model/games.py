@@ -6,17 +6,17 @@ def get_games():
     db_c = con.cursor()
     games = db_c.execute("""
             SELECT
-              *
-            FROM Games
+              g.Game_ID,
+              g.Result,
+              t1.TeamName | | '-' | | t2.TeamName "VS"
+            FROM Games g
             JOIN Teams t1
               ON Team1_Id = t1.Team_id
             JOIN Teams t2
               ON Team2_id = t2.Team_id
-                        """).fetchall()
+                """)
 
-    con.commit()
-
-    return games
+    return games.fetchall()
 
 
 def get_games_team(team_id):
@@ -27,7 +27,7 @@ def get_games_team(team_id):
               g.game_id,
               g.result,
               LISTAGG (s.ResultSet_1 | | ':' | | s.ResultSet_2, ', ') WITHIN GROUP (ORDER BY g.game_id) "Result",
-              t1.TeamName | | '-' | | t2.TeamName "VS"
+              t1.TeamName | | '-' | | t2.TeamName
             FROM Games g
             JOIN Teams t1
               ON g.Team1_Id = t1.Team_id
@@ -47,3 +47,23 @@ def get_games_team(team_id):
     )
 
     return games.fetchall()
+
+
+def get_who_plays(team_id):
+    con = get_con()
+    db_c = con.cursor()
+    db_c.prepare("""
+                SELECT
+                  *
+                FROM WhoPlays who
+                JOIN Games g
+                  ON g.Game_ID = who.Game_ID
+                JOIN Players p
+                  ON p.Player_ID = who.Player_ID
+                WHERE who.Game_ID = :team_id
+                """)
+    players = db_c.execute(
+        None, {'team_id': team_id}
+    )
+
+    return players.fetchall()

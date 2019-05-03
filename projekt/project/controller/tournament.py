@@ -50,7 +50,6 @@ def create():
 
             flash('Dodałeś nowy turniej. Gratulacje!')
 
-
             return redirect(url_for('tournament.all_tournaments'))
 
     return render_template('tournament/create.html')

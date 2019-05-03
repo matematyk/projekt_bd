@@ -8,7 +8,6 @@ def get_db():
     if 'db' not in g:
         connection = get_con()
         g.db = connection.cursor()
-        print(g.db)
     return g.db
 
 
