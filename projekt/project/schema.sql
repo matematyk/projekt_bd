@@ -23,6 +23,7 @@ CREATE SEQUENCE Team_seq START WITH 1;
 CREATE SEQUENCE Games_seq START WITH 1;
 CREATE SEQUENCE WhoPlays_seq START WITH 1;
 CREATE SEQUENCE Set_ID_seq START WITH 1;
+CREATE SEQUENCE Player_ID_seq START WITH 1;
 
 CREATE TABLE Users (
     User_ID NUMBER(10)  DEFAULT User_seq.nextval NOT NULL,
@@ -147,7 +148,7 @@ ALTER TABLE Sets_m ADD CONSTRAINT Sets_Games
 -- PLAYERS
 
 CREATE TABLE Players (
-    Player_ID NUMBER(10)  NOT NULL,
+    Player_ID NUMBER(10) DEFAULT Player_ID_seq.nextval NOT NULL,
     FirstName VARCHAR2(20) NOT NULL,
     LastName VARCHAR2(20)  NOT NULL,
     Team_ID NUMBER(3)  NOT NULL,
@@ -221,27 +222,28 @@ INSERT INTO Sets_m(Game_ID, NumerSet, ResultSet_1, ResultSet_2) VALUES (3 ,4, 25
 INSERT INTO Sets_m(Game_ID, NumerSet, ResultSet_1, ResultSet_2) VALUES (3 ,5, 15, 13);
 
 --
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (1, 'Artur' , 'Szalpuk' , 4);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (2, 'Jakub' , 'Kochanowski' , 4);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (3, 'Piotr' , 'Nowakowski' , 4);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (4, 'Jenia' , 'Grebennikov' , 1);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (5, 'Jean' , 'Patry' , 1);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (6, 'Dmitrij' , 'Wołkow' , 3);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (7, 'Mateusz ' , 'Bieniek' , 4);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (8, 'Dawid ' , 'Konarski' , 4);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (9, 'Maksim' , 'Michajłow' , 3);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (10, 'Fiodor' , 'Rodiczew' , 3);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (11, 'Dmitrij' , 'Muserski' , 3);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (12, 'Bartosz' , 'Kwolek' , 4);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (13, 'Michał' , 'Kubiak' , 4);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (14, 'Damian' , 'Schulz' , 4);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (15, 'Dmitrij' , 'Kowalew' , 3);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (16, 'Artem' , 'Wołwicz' , 3);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (17, 'Jegor' , 'Kliuka' , 3);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (18, 'Paweł' , 'Zatorski' , 4);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (19, 'Grzegorz' , 'Łomacz' , 4);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (20, 'Aleksander' , 'Śliwka' , 4);
-INSERT INTO Players(Player_ID, FirstName, LastName, Team_ID) VALUES (21, 'Mateusz' , 'Bieniek' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES (1, 'Artur' , 'Szalpuk' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Jakub' , 'Kochanowski' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Piotr' , 'Nowakowski' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Jenia' , 'Grebennikov' , 1);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Jean' , 'Patry' , 1);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Dmitrij' , 'Wołkow' , 3);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Mateusz ' , 'Bieniek' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Dawid ' , 'Konarski' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Maksim' , 'Michajłow' , 3);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Fiodor' , 'Rodiczew' , 3);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Dmitrij' , 'Muserski' , 3);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Bartosz' , 'Kwolek' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Michał' , 'Kubiak' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Damian' , 'Schulz' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Dmitrij' , 'Kowalew' , 3);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Artem' , 'Wołwicz' , 3);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Jegor' , 'Kliuka' , 3);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Paweł' , 'Zatorski' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Grzegorz' , 'Łomacz' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Aleksander' , 'Śliwka' , 4);
+INSERT INTO Players(FirstName, LastName, Team_ID) VALUES ('Mateusz' , 'Bieniek' , 4);
+
 
 CREATE OR REPLACE TRIGGER trg_check_dates
   BEFORE INSERT OR UPDATE ON Tournament_Application
