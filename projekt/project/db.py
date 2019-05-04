@@ -8,8 +8,16 @@ def get_db():
     if 'db' not in g:
         connection = get_con()
         g.db = connection.cursor()
-        print(g.db)
     return g.db
+
+
+def get_column_name(result, curs):
+    column_names = list(map(lambda x: x.lower(), [d[0] for d in curs.description]))
+    # list of data items
+    rows = list(result)
+
+    result = [dict(zip(column_names, row)) for row in rows]
+    return result
 
 
 def get_con():

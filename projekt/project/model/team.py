@@ -1,37 +1,38 @@
-from project.db import get_db, get_con
+from project.db import get_db, get_con, get_column_name
 
 TEAM_ID = 1
 TEAM_NAME = 2
 
 
 def get_teams():
-    db_c = get_db()
-    teams = db_c.execute("""
+    con = get_con()
+    curs = con.cursor()
+    teams = curs.execute("""
             SELECT
               *
             FROM Teams
             ORDER BY Teams.Team_ID
-    
     """).fetchall()
 
-    return teams
+    return get_column_name(teams, curs)
 
 
 def get_teams_players(team_id):
-    db_c = get_db()
-    db_c.prepare("""
+    con = get_con()
+    curs = con.cursor()
+    curs.prepare("""
             SELECT
               *
             FROM Teams t
-            LEFT JOIN Players p
+            JOIN Players p
               ON p.Team_ID = t.Team_ID
             WHERE t.TEAM_ID = :team_id
             """)
-    players = db_c.execute(
+    players = curs.execute(
         None, {'team_id': team_id}
     )
 
-    return players.fetchall()
+    return get_column_name(players.fetchall(), curs)
 
 
 def create_team(team_name):
@@ -45,3 +46,5 @@ def create_team(team_name):
     db.execute(None, {'team_name': team_name})
 
     con.commit()
+
+

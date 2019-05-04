@@ -2,20 +2,20 @@
 
 {% block content %}
 
-    <table class="table">
+    <table class="table table table-striped table-bordered">
        <thead>
         <tr>
-          <th scope="col">Firstname</th>
-          <th scope="col">Lastname</th>
+          <th scope="col">Result</th>
+          <th scope="col">Sets</th>
+          <th scope="col">Contestant</th>
         </tr>
       </thead>
        <tbody>
         {% for game in games %}
         <tr>
-          <th>{{ game[0] }}</th>
-          <th>{{ game[1] }}</th>
-          <th>{{ game[2] }}</th>
-          <th>{{ game[3] }}</th>
+          <th>{{ game['result'] }}</th>
+          <th>{{ game['sets'] }}</th>
+          <th>{{ game['teams'] }}</th>
         </tr>
 
   {% endfor %}

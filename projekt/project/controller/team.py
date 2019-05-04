@@ -12,7 +12,6 @@ bp = Blueprint('team', __name__)
 @login_required
 @requires_roles('admin')
 def index():
-    """Show all the teams"""
     teams = get_teams()
 
     return render_template('team/all.html', teams=teams)

@@ -4,11 +4,18 @@ from project.db import get_db, get_con
 def get_tournaments():
     db_c = get_db()
     tournaments = db_c.execute(
-        """select t.Tournament_ID,  t.Tournament_NAME, sum(case when apli.Tournament_ID is not null then 1 else 0 end) sum_teams
-            from Tournament t
-            left join Tournament_Application apli
-            on t.Tournament_ID = apli.Tournament_ID
-            group by t.Tournament_ID, t.Tournament_NAME
+        """SELECT
+              t.Tournament_ID,
+              t.Tournament_NAME,
+              SUM(CASE
+                WHEN apli.Tournament_ID IS NOT NULL THEN 1
+                ELSE 0
+              END) sum_teams
+            FROM Tournament t
+            LEFT JOIN Tournament_Application apli
+              ON t.Tournament_ID = apli.Tournament_ID
+            GROUP BY t.Tournament_ID,
+                     t.Tournament_NAME
         """
     ).fetchall()
 
@@ -17,11 +24,15 @@ def get_tournaments():
 
 def get_tournament(tournament_id):
     db_c = get_db()
-    db_c.prepare("""select t.TEAM_ID, team.TeamName, t.DATE_APPLICATION
-            from Tournament_Application t
-            left join Teams team
-            on team.Team_ID = t.Team_ID
-            where t.Tournament_ID = :tournament_id
+    db_c.prepare("""
+            SELECT
+              t.TEAM_ID,
+              team.TeamName,
+              t.DATE_APPLICATION
+            FROM Tournament_Application t
+            LEFT JOIN Teams team
+              ON team.Team_ID = t.Team_ID
+            WHERE t.Tournament_ID = :tournament_id
             """)
     tournament = db_c.execute(
         None, {'tournament_id': tournament_id}
@@ -32,11 +43,13 @@ def get_tournament(tournament_id):
 
 def get_all_tournaments():
     db_c = get_db()
-    tournaments = db_c.execute(
-        """select * from Tournament t"""
-    ).fetchall()
+    tournaments = db_c.execute("""
+            SELECT
+              *
+            FROM Tournament t
+            """)
 
-    return tournaments
+    return tournaments.fetchall()
 
 
 def create_tournament(name, date_start, date_end):

@@ -49,12 +49,12 @@ def login():
 
         if user is None:
             error = 'Incorrect username.'
-        elif not check_password_hash(user[2], password):
+        elif not check_password_hash(user[0]['password'], password):
             error = 'Incorrect password.'
 
         if error is None:
             session.clear()
-            session['user_id'] = user[0]
+            session['user_id'] = user[0]['user_id']
             return redirect(url_for('tournament.create'))
 
         flash(error)
@@ -102,7 +102,7 @@ def get_current_user_role():
     user_id = session.get('user_id')
     user = select_user_by_id(user_id)
 
-    return user[3]
+    return user[0]['status']
 
 
 def login_required(f):
