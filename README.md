@@ -1,6 +1,6 @@
 # projekt_bd
 
-![useful image](Selection_077.png)
+![useful image](schemat.png)
 
 
 ### Tunelowanie sie do hosta labora.mimuw.edu.pl 

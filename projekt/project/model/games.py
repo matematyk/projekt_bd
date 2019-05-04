@@ -1,10 +1,10 @@
-from project.db import get_con
+from project.db import get_con, get_column_name
 
 
 def get_games():
     con = get_con()
-    db_c = con.cursor()
-    games = db_c.execute("""
+    curs = con.cursor()
+    games = curs.execute("""
             SELECT
               g.Game_ID,
               g.Result,
@@ -16,18 +16,18 @@ def get_games():
               ON Team2_id = t2.Team_id
                 """)
 
-    return games.fetchall()
+    return get_column_name(games.fetchall(), curs)
 
 
 def get_games_team(team_id):
     con = get_con()
-    db_c = con.cursor()
-    db_c.prepare("""
+    curs = con.cursor()
+    curs.prepare("""
             SELECT
               g.game_id,
               g.result,
-              LISTAGG (s.ResultSet_1 | | ':' | | s.ResultSet_2, ', ') WITHIN GROUP (ORDER BY g.game_id),
-              t1.TeamName | | '-' | | t2.TeamName
+              LISTAGG (s.ResultSet_1 | | ':' | | s.ResultSet_2, ', ') WITHIN GROUP (ORDER BY g.game_id) sets,
+              t1.TeamName | | '-' | | t2.TeamName teams
             FROM Games g
             JOIN Teams t1
               ON g.Team1_Id = t1.Team_id
@@ -42,17 +42,17 @@ def get_games_team(team_id):
                      t1.TeamName,
                      t2.TeamName
                 """)
-    games = db_c.execute(
+    games = curs.execute(
         None, {'team_id': team_id}
     )
 
-    return games.fetchall()
+    return get_column_name(games.fetchall(), curs)
 
 
 def get_who_plays(team_id):
     con = get_con()
-    db_c = con.cursor()
-    db_c.prepare("""
+    curs = con.cursor()
+    curs.prepare("""
                 SELECT
                   *
                 FROM WhoPlays who
@@ -62,8 +62,9 @@ def get_who_plays(team_id):
                   ON p.Player_ID = who.Player_ID
                 WHERE who.Game_ID = :team_id
                 """)
-    players = db_c.execute(
+    players = curs.execute(
         None, {'team_id': team_id}
     )
 
-    return players.fetchall()
+    return get_column_name(players.fetchall(), curs)
+

@@ -4,8 +4,9 @@ DROP TABLE Players;
 DROP TABLE Users;
 DROP TABLE Tournament_Application;
 DROP TABLE Tournament;
-DROP TABLE Teams;
 DROP TABLE Games;
+DROP TABLE Teams;
+
 
 DROP SEQUENCE User_seq;
 DROP SEQUENCE Tournament_Application_seq;
@@ -14,6 +15,7 @@ DROP SEQUENCE Team_seq;
 DROP SEQUENCE Games_seq;
 DROP SEQUENCE WhoPlays_seq;
 DROP SEQUENCE Set_ID_seq;
+DROP SEQUENCE Player_ID_seq;
 
 CREATE SEQUENCE User_seq START WITH 1;
 CREATE SEQUENCE Tournament_Application_seq START WITH 1;
@@ -58,9 +60,6 @@ CREATE TABLE Tournament_Application (
     Date_application DATE NOT NULL
 )
 
-ALTER TABLE Tournament_Application
-ADD CONSTRAINT Check_DATE check (Date_application >= CURRENT_DATE);
-
 
 ALTER TABLE Tournament_Application ADD CONSTRAINT Tournament_Application_Ref
     FOREIGN KEY (Team_ID)
@@ -91,16 +90,12 @@ ALTER TABLE WhoPlays ADD CONSTRAINT WhoPlays_Games
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
-ALTER TABLE WhoPlays ADD CONSTRAINT WhoPlays_Games
+ALTER TABLE WhoPlays ADD CONSTRAINT WhoPlays_Players
     FOREIGN KEY (Player_ID)
     REFERENCES Players (Player_ID)
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
-
-INSERT INTO WhoPlays(Game_ID, Player_ID) VALUES (1, 1);
-INSERT INTO WhoPlays(Game_ID, Player_ID) VALUES (1, 2);
-INSERT INTO WhoPlays(Game_ID, Player_ID) VALUES (1, 3);
 
 CREATE TABLE Games (
     Game_ID NUMBER(10) DEFAULT Games_seq.nextval NOT NULL,
@@ -165,6 +160,12 @@ ALTER TABLE Players ADD CONSTRAINT NalezyDoDruzyny
     INITIALLY IMMEDIATE
 ;
 
+
+
+
+INSERT INTO WhoPlays(Game_ID, Player_ID) VALUES (1, 1);
+INSERT INTO WhoPlays(Game_ID, Player_ID) VALUES (1, 2);
+INSERT INTO WhoPlays(Game_ID, Player_ID) VALUES (1, 3);
 
 
 INSERT INTO Teams(TeamName) VALUES ('Francja');

@@ -1,4 +1,4 @@
-from project.db import get_con
+from project.db import get_con, get_column_name
 from werkzeug.security import generate_password_hash
 
 
@@ -15,32 +15,33 @@ def create_user(username, password, status='admin'):
 
 def select_user(username):
     con = get_con()
-    db = con.cursor()
-    db.prepare("""
+    cur = con.cursor()
+    cur.prepare("""
             SELECT
                 *
             FROM Users
             WHERE username = :username
                 """)
-    res = db.execute(
+    res = cur.execute(
         None, {'username': username}
-    ).fetchone()
+    ).fetchall()
 
-    return res
+    return get_column_name(res, cur)
 
 
 def select_user_by_id(user_id):
+
     con = get_con()
-    db = con.cursor()
-    db.prepare("""
+    cur = con.cursor()
+    cur.prepare("""
             SELECT
                 *
             FROM Users
             WHERE User_ID = :user_id
                 """)
 
-    res = db.execute(
+    res = cur.execute(
         None, {'user_id': user_id}
-    ).fetchone()
+    ).fetchall()
 
-    return res
+    return get_column_name(res, cur)
