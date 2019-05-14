@@ -30,7 +30,6 @@ def select_user(username):
 
 
 def select_user_by_id(user_id):
-
     con = get_con()
     cur = con.cursor()
     cur.prepare("""

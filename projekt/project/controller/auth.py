@@ -3,11 +3,19 @@ from flask import (
 )
 from werkzeug.security import check_password_hash
 
-from project.db import get_db, get_con
 from project.model.auth import create_user, select_user, select_user_by_id
 from functools import wraps
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 @bp.route('/register', methods=('GET', 'POST'))
@@ -15,9 +23,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        con = get_con()
         error = None
-        db = con.cursor()
 
         if not username:
             error = 'Username is required.'
@@ -26,12 +32,13 @@ def register():
 
         res = select_user(username)
 
-        if res is not None:
+        if len(res) != 0:
             error = 'User {} is already registered.'.format(username)
 
         if error is None:
             create_user(username, password, status='admin')
-            return redirect(url_for('auth.user_page'))
+            flash('thank you for registering', 'info')
+            return redirect(url_for('auth.login'))
 
         flash(error)
 
@@ -75,7 +82,6 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        db = get_db()
         user = select_user_by_id(user_id)
 
         g.user = user
@@ -86,13 +92,14 @@ def requires_roles(*roles):
         @wraps(f)
         def wrapped(*args, **kwargs):
             if get_current_user_role() not in roles:
-                return "NIE MASZ DOSTĘPU"
+                return render_template('auth/error.html')
             return f(*args, **kwargs)
         return wrapped
     return wrapper
 
 
 @bp.route('/user')
+@login_required
 @requires_roles('admin', 'kibic')
 def user_page():
     return "You've got permission to access this page."
@@ -101,14 +108,8 @@ def user_page():
 def get_current_user_role():
     user_id = session.get('user_id')
     user = select_user_by_id(user_id)
+    print(user)
 
     return user[0]['status']
 
 
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if g.user is None:
-            return redirect(url_for('auth.login', next=request.url))
-        return f(*args, **kwargs)
-    return decorated_function

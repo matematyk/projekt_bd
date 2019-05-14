@@ -58,9 +58,3 @@ def init_db_command():
     init_db()
     click.echo('Initialized the database.')
 
-
-@click.command('testSql')
-@with_appcontext
-def test_command():
-    simple_select()
-    click.echo('Select')
