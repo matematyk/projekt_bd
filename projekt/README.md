@@ -17,7 +17,7 @@ import cx_Oracle
 
 TODO:
 * ogarnac cmd
-* python turtle, jako slownik z query 
+* jako slownik z query -- DONE 
 
 ## Konfuguracja Pycharm:
 ```
