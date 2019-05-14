@@ -11,3 +11,7 @@ ssh -N -f -L localhost:1521:labora.mimuw.edu.pl:1521 mw404851@students.mimuw.edu
 
 ### Fixtures: 
 https://pl.wikipedia.org/wiki/Memoria%C5%82_Huberta_Jerzego_Wagnera_2018
+
+### instalacja 
+http://www.indjango.com/ubuntu-install-postgresql-and-pgadmin/
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04
