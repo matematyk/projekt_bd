@@ -1,6 +1,6 @@
 import cx_Oracle
 
-con = cx_Oracle.connect('bp209493/abc123@localhost/LABS')
+con = cx_Oracle.connect('bp209493/abc123@labora.mimuw.edu.pl/LABS')
 print(con.version)
 
 cur = con.cursor()
