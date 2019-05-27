@@ -21,7 +21,7 @@ def get_column_name(result, curs):
 
 
 def get_con():
-    return cx_Oracle.connect('bp209493/abc123@localhost/LABS')
+    return cx_Oracle.connect('bp209493/abc123@labora.mimuw.edu.pl/LABS')
 
 
 def close_db(e=None):

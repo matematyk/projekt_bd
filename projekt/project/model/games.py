@@ -56,10 +56,10 @@ def get_who_plays(team_id):
                 SELECT
                   *
                 FROM WhoPlays who
-                JOIN Games g
-                  ON g.Game_ID = who.Game_ID
                 JOIN Players p
                   ON p.Player_ID = who.Player_ID
+                JOIN Teams t
+                ON t.TEAM_ID = p.TEAM_ID
                 WHERE who.Game_ID = :team_id
                 """)
     players = curs.execute(
