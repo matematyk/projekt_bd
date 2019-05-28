@@ -17,10 +17,11 @@ http://www.indjango.com/ubuntu-install-postgresql-and-pgadmin/
 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04
 
 
-### Problem z instalacja sqlDevelopera:
+### Problem z instalacją sqlDevelopera:
 ```
 /home/<user>/.sqldeveloper/19.1.0
 ```
 ```
 SetJavaHome /usr/lib/jvm/java-8-openjdk-amd64
 ```
+Uwaga na 11 może nie działać! 
