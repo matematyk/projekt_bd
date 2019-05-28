@@ -15,3 +15,12 @@ https://pl.wikipedia.org/wiki/Memoria%C5%82_Huberta_Jerzego_Wagnera_2018
 ### instalacja 
 http://www.indjango.com/ubuntu-install-postgresql-and-pgadmin/
 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04
+
+
+### Problem z instalacja sqlDevelopera:
+```
+/home/<user>/.sqldeveloper/19.1.0
+```
+```
+SetJavaHome /usr/lib/jvm/java-8-openjdk-amd64
+```
