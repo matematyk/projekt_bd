@@ -203,6 +203,11 @@ values (to_date('26-08-2018', 'DD-MM-YYYY'), '3:1', 1, 2, 1);
 INSERT INTO Games(Date_game, Result, Team1_ID, Team2_ID, Tournament)
 values (to_date('26-08-2018', 'DD-MM-YYYY'), '3:2', 4, 3, 1);
 
+INSERT into WhoPlays(Game_ID, Team_ID) values (1,1);
+INSERT into WhoPlays(Game_ID, Team_ID) values (2,2);
+INSERT into WhoPlays(Game_ID, Team_ID) values (3,3);
+INSERT into WhoPlays(Game_ID, Team_ID) values (4,4);
+INSERT into WhoPlays(Game_ID, Team_ID) values (5,5);
 
 
 -- Polska 3:0 Kanada
