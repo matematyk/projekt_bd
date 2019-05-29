@@ -22,7 +22,6 @@ def get_tournaments():
     return get_column_name(tournaments, curs)
 
 
-
 def get_tournament(tournament_id):
     db_c = get_db()
     db_c.prepare("""
@@ -51,7 +50,6 @@ def get_all_tournaments():
             FROM Tournament t
             """)
     return get_column_name(tournaments.fetchall(), curs)
-
 
 
 def create_tournament(name, date_start, date_end):

@@ -24,7 +24,7 @@
           </div>
           <select class="custom-select" name="team">
           {% for team in teams %}
-            <option value="{{ team[0] }}">
+            <option value="{{ team['team_id'] }}">
               {{ team['teamname'] }}
             </option>
             {% endfor %}
