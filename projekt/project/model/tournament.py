@@ -1,9 +1,10 @@
-from project.db import get_db, get_con
+from project.db import get_db, get_con, get_column_name
 
 
 def get_tournaments():
-    db_c = get_db()
-    tournaments = db_c.execute(
+    con = get_con()
+    curs = con.cursor()
+    tournaments = curs.execute(
         """SELECT
               t.Tournament_ID,
               t.Tournament_NAME,
@@ -18,8 +19,8 @@ def get_tournaments():
                      t.Tournament_NAME
         """
     ).fetchall()
+    return get_column_name(tournaments, curs)
 
-    return tournaments
 
 
 def get_tournament(tournament_id):
@@ -42,14 +43,15 @@ def get_tournament(tournament_id):
 
 
 def get_all_tournaments():
-    db_c = get_db()
-    tournaments = db_c.execute("""
+    con = get_con()
+    curs = con.cursor()
+    tournaments = curs.execute("""
             SELECT
               *
             FROM Tournament t
             """)
+    return get_column_name(tournaments.fetchall(), curs)
 
-    return tournaments.fetchall()
 
 
 def create_tournament(name, date_start, date_end):

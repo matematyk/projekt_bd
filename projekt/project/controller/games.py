@@ -49,6 +49,6 @@ def add_teams(tour_id, game_id):
     tournament = get_tournament(tour_id)
     games = get_games_by_tournament(tour_id)
 
-
+    print(games)
 
     return render_template('games/add_teams.html', tournament=tournament, games=games)

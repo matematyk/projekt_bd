@@ -9,11 +9,13 @@
 
   <form method="post">
     <label for="team">Ustalanie meczów do rozegrania.</label>
+        <option>
+            <input name="team1" value="{{ request.form['team'] }}" required>
+        </option>
+          <option value="">
 
-
-
-        <input name="team1" value="{{ request.form['team'] }}" required>
-        <input name="team2" value="{{ request.form['team'] }}" required>
+            <input name="team2" value="{{ request.form['team'] }}" required>
+        </option>
     <input type="submit" value="Save">
   </form>
 
