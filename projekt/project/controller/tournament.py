@@ -64,11 +64,10 @@ def new_application():
 
     if request.method == 'POST':
         tournament = request.form['tournament']
-        team = request.form['team']
+        team_id = request.form['team']
         now = datetime.now().strftime("%Y-%m-%d")
-        print(tournaments, team, now)
 
-        create_application(tournament, team, now)
+        create_application(team_id, tournament, now)
         flash('Dodałeś nowe zgłoszenie turniejowe. Gratulacje!')
 
         return redirect(url_for('tournament.new_application'))
