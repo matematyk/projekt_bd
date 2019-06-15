@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Ustalenie meczów do rozegrania{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <form method="post">
+    <label for="team">Ustalanie meczów do rozegrania.</label>
+        <option>
+            <input name="team1" value="{{ request.form['team'] }}" required>
+        </option>
+          <option value="">
+
+            <input name="team2" value="{{ request.form['team'] }}" required>
+        </option>
+    <input type="submit" value="Save">
+  </form>
+
+
+</div>
+{% endblock %}

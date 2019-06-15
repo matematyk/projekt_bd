@@ -68,3 +68,18 @@ def get_who_plays(team_id):
 
     return get_column_name(players.fetchall(), curs)
 
+
+def get_games_by_tournament(tour_id):
+    con = get_con()
+    curs = con.cursor()
+    curs.prepare("""
+                  SELECT *
+                FROM Games g
+                JOIN Tournament t ON g.tournament = t.Tournament_ID
+                where t.Tournament_ID = :tournament_id
+                   """)
+    games = curs.execute(
+        None, {'tournament_id': tour_id}
+    )
+
+    return get_column_name(games.fetchall(), curs)

@@ -29,3 +29,11 @@ RUN-> Edit Configuration
 ## Dokumentacja:
 http://flask.pocoo.org/docs/1.0/tutorial/blog/
 https://www.tutorialspoint.com/flask
+
+### Oracle github:
+
+https://oracle.github.io/odpi/doc/installation.html#linux
+
+```buildoutcfg
+sudo apt-get install libaio1
+```

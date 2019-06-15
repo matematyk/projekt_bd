@@ -8,14 +8,16 @@
           <th scope="col">Tournaments</th>
           <th scope="col">Teams</th>
           <th scope="col">Count Teams</th>
+          <th scope="col">Add Teams</th>
         </tr>
       </thead>
        <tbody>
         {% for tournaments in tournaments %}
         <tr>
-          <th>{{ tournaments[1] }}</th>
-          <th><a href="{{ url_for('tournament.show_tournament', id=tournaments[0]) }}">link</a></th>
-          <th>{{ tournaments[2] }}</th>
+          <th>{{ tournaments['tournament_name'] }}</th>
+          <th><a href="{{ url_for('tournament.show_tournament', id=tournaments['tournament_id']) }}">link</a></th>
+          <th>{{ tournaments['sum_teams'] }}</th>
+          <th><a href="{{ url_for('tournament.show_tournament', id=tournaments['tournament_id']) }}">link</a></th>
         </tr>
         {% if not loop.last %}
             <hr>
