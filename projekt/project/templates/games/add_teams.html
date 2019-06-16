@@ -8,15 +8,26 @@
 <div class="container">
 
   <form method="post">
-    <label for="team">Ustalanie meczów do rozegrania.</label>
-        <option>
-            <input name="team1" value="{{ request.form['team'] }}" required>
-        </option>
-          <option value="">
+            {% if teams|length > 1 %}
+              <select name="team_1">
+                      {% for team in teams %}
+                            <option value="{{ team['team_id'] }}"> {{ team['teamname'] }}</option>
+                       {% endfor %}
+              </select>
+              <select name="team_2">
+                       {% for team in teams %}
+                            <option value="{{ team['team_id'] }}"> {{ team['teamname'] }}</option>
+                        {% endfor %}
+              </select>
+              <input type="date">
 
-            <input name="team2" value="{{ request.form['team'] }}" required>
-        </option>
-    <input type="submit" value="Save">
+            <input type="submit" value="Save">
+            {% else %}
+             <div class="alert alert-danger">
+                Przypisz jakiś zespół do turnieju
+             </div>
+            {% endif %}
+
   </form>
 
 

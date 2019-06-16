@@ -16,6 +16,7 @@ bp = Blueprint('tournament', __name__)
 @requires_roles('admin')
 def all_tournaments():
     tournaments = get_tournaments()
+    print(tournaments)
 
     return render_template('tournament/all.html', tournaments=tournaments)
 

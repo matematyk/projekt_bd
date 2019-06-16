@@ -11,7 +11,7 @@ from project.model.games import (
 bp = Blueprint('games', __name__)
 
 from project.model.tournament import (
-    get_tournament
+    get_games_by_tournament
 )
 
 
@@ -42,13 +42,10 @@ def show_who_play(id):
     return render_template('games/who_plays.html', players=players)
 
 
-@bp.route('/tournament/<int:tour_id>/games/<int:game_id>/add')
+@bp.route('/tournament/<int:tour_id>/games/add')
 @login_required
 @requires_roles('admin')
-def add_teams(tour_id, game_id):
-    tournament = get_tournament(tour_id)
-    games = get_games_by_tournament(tour_id)
+def add_teams(tour_id):
+    tournament_teams = get_games_by_tournament(tour_id)
 
-    print(games)
-
-    return render_template('games/add_teams.html', tournament=tournament, games=games)
+    return render_template('games/add_teams.html', teams=tournament_teams)

@@ -6,6 +6,7 @@ def get_tournaments():
     curs = con.cursor()
     tournaments = curs.execute(
         """SELECT
+              t.date_end,
               t.Tournament_ID,
               t.Tournament_NAME,
               SUM(CASE
@@ -16,9 +17,11 @@ def get_tournaments():
             LEFT JOIN Tournament_Application apli
               ON t.Tournament_ID = apli.Tournament_ID
             GROUP BY t.Tournament_ID,
-                     t.Tournament_NAME
+                     t.Tournament_NAME,
+                     t.date_end
         """
     ).fetchall()
+
     return get_column_name(tournaments, curs)
 
 
@@ -39,6 +42,26 @@ def get_tournament(tournament_id):
     )
 
     return tournament.fetchall()
+
+
+def get_games_by_tournament(tournament_id):
+    con = get_con()
+    curs = con.cursor()
+
+    curs.prepare("""
+            SELECT *
+                FROM Tournament_Application ta
+                JOIN Tournament t 
+                ON ta.Tournament_ID = t.Tournament_ID
+                JOIN Teams team
+                ON team.Team_ID = ta.Team_ID
+                where t.Tournament_ID = :tournament_id
+            """)
+    tournament = curs.execute(
+        None, {'tournament_id': tournament_id}
+    )
+
+    return get_column_name(tournament.fetchall(), curs)
 
 
 def get_all_tournaments():

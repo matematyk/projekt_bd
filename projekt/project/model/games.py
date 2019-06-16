@@ -75,7 +75,10 @@ def get_games_by_tournament(tour_id):
     curs.prepare("""
                   SELECT *
                 FROM Games g
-                JOIN Tournament t ON g.tournament = t.Tournament_ID
+                JOIN Tournament t 
+                ON g.tournament = t.Tournament_ID
+                JOIN Teams t
+                ON t.TEAM_ID = p.TEAM_ID
                 where t.Tournament_ID = :tournament_id
                    """)
     games = curs.execute(
@@ -83,3 +86,16 @@ def get_games_by_tournament(tour_id):
     )
 
     return get_column_name(games.fetchall(), curs)
+
+
+def create_game(tournament_id, team1, team2, date):
+    con = get_con()
+    db = con.cursor()
+
+    db.prepare("""
+            INSERT INTO Games(Date_game, Result, Team1_ID, Team2_ID, Tournament)
+            VALUES (to_date(:date, 'DD-MM-YYYY'), '0-0', :team1, :team2, :tournament_id))
+            """)
+    db.execute(None, {'tournament_id': tournament_id, 'team1': team1, 'team2': team2, 'date': date})
+
+    con.commit()
