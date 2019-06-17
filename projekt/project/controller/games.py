@@ -10,8 +10,6 @@ from project.model.games import (
 
 bp = Blueprint('games', __name__)
 
-from project.model.tournament import get_games_by_tournament
-
 
 @bp.route('/games/all')
 @login_required
@@ -65,8 +63,8 @@ def add_teams(tour_id):
 
             create_game(tour_id, team1, team2, date)
 
-            flash('Dodałeś nowy turniej. Gratulacje!')
+            flash('Dodałeś nową grę. Gratulacje!')
 
-            return redirect(url_for('tournament.all_tournaments'))
+            return redirect(url_for('games.add_teams'))
 
     return render_template('games/add_teams.html', teams=tournament_teams)

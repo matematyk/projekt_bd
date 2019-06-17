@@ -11,12 +11,11 @@ from datetime import datetime
 bp = Blueprint('tournament', __name__)
 
 
-@bp.route('/tournaments/all')
+@bp.route('/')
 @login_required
 @requires_roles('admin')
 def all_tournaments():
     tournaments = get_tournaments()
-    print(tournaments)
 
     return render_template('tournament/all.html', tournaments=tournaments)
 
@@ -67,7 +66,6 @@ def new_application():
         tournament = request.form['tournament']
         team = request.form['team']
         now = datetime.now().strftime("%Y-%m-%d")
-        print(tournaments, team, now)
 
         create_application(tournament, team, now)
         flash('Dodałeś nowe zgłoszenie turniejowe. Gratulacje!')

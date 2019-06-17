@@ -44,26 +44,6 @@ def get_tournament(tournament_id):
     return tournament.fetchall()
 
 
-def get_games_by_tournament(tournament_id):
-    con = get_con()
-    curs = con.cursor()
-
-    curs.prepare("""
-            SELECT *
-                FROM Tournament_Application ta
-                JOIN Tournament t 
-                ON ta.Tournament_ID = t.Tournament_ID
-                JOIN Teams team
-                ON team.Team_ID = ta.Team_ID
-                where t.Tournament_ID = :tournament_id
-            """)
-    tournament = curs.execute(
-        None, {'tournament_id': tournament_id}
-    )
-
-    return get_column_name(tournament.fetchall(), curs)
-
-
 def get_all_tournaments():
     con = get_con()
     curs = con.cursor()
@@ -91,7 +71,6 @@ def create_tournament(name, date_start, date_end):
 def create_application(team_id, tournament_id, date):
     con = get_con()
     db = con.cursor()
-    print(team_id, tournament_id, date)
     db.prepare("""
             INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) 
             VALUES (:team_id, :tournament_id, to_date(:date_s, 'YYYY-MM-DD'))

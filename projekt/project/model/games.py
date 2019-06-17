@@ -74,12 +74,12 @@ def get_games_by_tournament(tour_id):
     curs = con.cursor()
     curs.prepare("""
                   SELECT *
-                FROM Games g
-                JOIN Tournament t 
-                ON g.tournament = t.Tournament_ID
-                JOIN Teams t
-                ON t.TEAM_ID = p.TEAM_ID
-                where t.Tournament_ID = :tournament_id
+                    FROM Tournament_Application ta
+                    JOIN Tournament t 
+                        ON ta.Tournament_ID = t.Tournament_ID
+                    JOIN Teams team
+                        ON team.Team_ID = ta.Team_ID
+                    WHERE t.Tournament_ID = :tournament_id
                    """)
     games = curs.execute(
         None, {'tournament_id': tour_id}
