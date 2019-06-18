@@ -54,6 +54,9 @@ def add_teams(tour_id):
             error = 'team1 name is required.'
         if not team2:
             error = 'team2 name is required'
+        if not date:
+            error = 'Date is required'
+
         if team1 == team2:
             error = 'Zespół sam ze sobą nie może zagrać meczu.'
 
@@ -63,8 +66,12 @@ def add_teams(tour_id):
 
             create_game(tour_id, team1, team2, date)
 
-            flash('Dodałeś nową grę. Gratulacje!')
+            flash('Dodałeś nową grę. Gratulacje!' + team1 + team2)
 
-            return redirect(url_for('games.add_teams'))
+            return redirect(url_for('games.add_teams', tour_id=tour_id))
 
     return render_template('games/add_teams.html', teams=tournament_teams)
+
+def edit_games(game_id):
+
+    return render_template('games/edit_game.html', game=game)

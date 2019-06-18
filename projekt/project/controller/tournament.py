@@ -67,7 +67,7 @@ def new_application():
         team = request.form['team']
         now = datetime.now().strftime("%Y-%m-%d")
 
-        create_application(tournament, team, now)
+        create_application(team, tournament, now)
         flash('Dodałeś nowe zgłoszenie turniejowe. Gratulacje!')
 
         return redirect(url_for('tournament.new_application'))

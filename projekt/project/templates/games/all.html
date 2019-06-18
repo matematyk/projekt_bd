@@ -8,6 +8,7 @@
           <th scope="col">Team</th>
           <th scope="col">Players</th>
           <th scope="col">Who Play</th>
+          <th scope="col">Who Play</th>
         </tr>
       </thead>
        <tbody>
@@ -15,7 +16,8 @@
         <tr>
           <th>{{ game['result'] }}</th>
           <th>{{ game['vs'] }}</th>
-          <th><a href="{{ url_for('games.show_who_play', id=game['game_id']) }}">link</a></th>
+          <th><a href="{{ url_for('games.show_who_play', id=game['game_id']) }}">show_who_play</a></th>
+          <th><a href="{{ url_for('games.edit_game', id=game['game_id']) }}">edit_game</a></th>
         </tr>
         {% endfor %}
        </tbody>
