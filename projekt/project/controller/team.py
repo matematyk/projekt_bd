@@ -44,7 +44,7 @@ def add_team():
 
 @bp.route('/game/<int:id_game>/team/<int:id_team>', methods=('POST', 'GET'))
 def add_team_squad(id_game, id_team):
-    players_added = game_players_added(id_game)
+    players_added = game_players_added(id_game, id_team)
 
     players = get_teams_players(id_team)
 

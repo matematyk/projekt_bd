@@ -48,17 +48,18 @@ def create_team(team_name):
     con.commit()
 
 
-def game_players_added(game_id):
+def game_players_added(game_id, team_id):
     con = get_con()
     curs = con.cursor()
     curs.prepare("""
             SELECT * FROM WhoPlays wp
             JOIN Players p
               ON wp.Player_ID = p.Player_ID
-            WHERE game_id = :game_id
+            WHERE game_id = :game_id and 
+            p.team_id = :team_id
             """)
     players = curs.execute(
-        None, {'game_id': game_id}
+        None, {'game_id': game_id, 'team_id': team_id}
     )
 
     return get_column_name(players.fetchall(), curs)
