@@ -17,7 +17,7 @@
           <th>{{ game['result'] }}</th>
           <th>{{ game['vs'] }}</th>
           <th><a href="{{ url_for('games.show_who_play', id=game['game_id']) }}">show_who_play</a></th>
-          <th><a href="{{ url_for('games.edit_game', id=game['game_id']) }}">edit_game</a></th>
+          <th><a href="{{ url_for('games.edit_games', game_id=game['game_id']) }}">edit</a></th>
         </tr>
         {% endfor %}
        </tbody>

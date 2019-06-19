@@ -5,7 +5,7 @@ from project.controller.auth import (
     requires_roles, login_required
 )
 from project.model.games import (
-    get_games, get_games_team, get_who_plays, get_games_by_tournament, create_game
+    get_games, get_games_team, get_who_plays, get_games_by_tournament, create_game, get_game, set_score_to_game
 )
 
 bp = Blueprint('games', __name__)
@@ -72,6 +72,18 @@ def add_teams(tour_id):
 
     return render_template('games/add_teams.html', teams=tournament_teams)
 
-def edit_games(game_id):
 
-    return render_template('games/edit_game.html', game=game)
+@bp.route('/games/<int:game_id>/edit', methods=('POST', 'GET'))
+@login_required
+@requires_roles('admin')
+def edit_games(game_id):
+    select_game = get_game(game_id)
+
+    if request.method == 'POST':
+        result = request.form['result']
+
+        set_score_to_game(game_id, result)
+
+        return redirect(url_for('games.edit_games', game_id=game_id))
+
+    return render_template('games/edit_game.html', game=select_game[0])
