@@ -40,3 +40,19 @@ def add_team():
         return redirect(url_for('team.index'))
 
     return render_template('team/create.html')
+
+
+@bp.route('/game/<int:id_game>/team/<int:id_team>', methods=('POST', 'GET'))
+def add_team_squad(id_game, id_team):
+    players_added = game_players_added(id_game)
+
+    players = get_teams_players(id_team)
+
+    if request.method == 'POST':
+        player_id = request.form['player_id']
+
+        add_player_to_game(id_game, player_id)
+
+        return redirect(url_for('team.add_team_squad', id_game=id_game, id_team=id_team))
+
+    return render_template('team/add_squad.html', players=players, players_added=players_added)

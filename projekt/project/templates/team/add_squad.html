@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    Zgłoszony team:
+    <table class="table table table-striped table-bordered">
+       <thead>
+        <tr>
+          <th scope="col">Player</th>
+        </tr>
+      </thead>
+       <tbody>
+        {% for player_play in players_added %}
+            <tr>
+                <th>{{ player_play['firstname'] }} {{ player_play['lastname'] }}</th>
+            </tr>
+        {% endfor %}
+       </tbody>
+    </table>
+
+    <form method="POST">
+        <select name="player_id">
+        {% for player in players %}
+            <option value="{{ player['player_id'] }}"> {{ player['firstname'] }} {{ player['lastname'] }}</option>
+        {% endfor %}
+        </select>
+
+        <input type="submit" value="dodaj zawodnika">
+    </form>
+
+{% endblock %}

@@ -48,3 +48,30 @@ def create_team(team_name):
     con.commit()
 
 
+def game_players_added(game_id):
+    con = get_con()
+    curs = con.cursor()
+    curs.prepare("""
+            SELECT * FROM WhoPlays wp
+            JOIN Players p
+              ON wp.Player_ID = p.Player_ID
+            WHERE game_id = :game_id
+            """)
+    players = curs.execute(
+        None, {'game_id': game_id}
+    )
+
+    return get_column_name(players.fetchall(), curs)
+
+
+def add_player_to_game(game_id, player_id):
+    con = get_con()
+    db = con.cursor()
+
+    db.prepare("""
+            INSERT INTO WhoPlays (Game_ID, Player_ID)
+                VALUES (:game_id, :player_id)
+            """)
+    db.execute(None, {'game_id': game_id, 'player_id': player_id})
+
+    con.commit()

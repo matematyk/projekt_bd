@@ -6,6 +6,8 @@ def get_games():
     curs = con.cursor()
     games = curs.execute("""
             SELECT
+              t1.Team_ID t1,
+              t2.Team_ID t2,
               g.Game_ID,
               g.Result,
               t1.TeamName | | '-' | | t2.TeamName "VS"
