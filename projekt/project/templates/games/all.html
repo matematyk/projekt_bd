@@ -5,7 +5,8 @@
     <table class="table table-striped table-bordered">
        <thead>
         <tr>
-          <th scope="col">Team</th>
+          <th scope="col">Dodaj zawodników do gry</th>
+          <th scope="col">Wynik</th>
           <th scope="col">Players</th>
           <th scope="col">Who Play</th>
           <th scope="col">Who Play</th>
@@ -14,6 +15,10 @@
        <tbody>
         {% for game in games %}
         <tr>
+          <th>
+              <a href="{{ url_for('team.add_team_squad', id_game=game['game_id'], id_team=game['t1'] ) }}">Zespół1</a>
+              <a href="{{ url_for('team.add_team_squad', id_game=game['game_id'], id_team=game['t2'] ) }}">Zespół2</a>
+          </th>
           <th>{{ game['result'] }}</th>
           <th>{{ game['vs'] }}</th>
           <th><a href="{{ url_for('games.show_who_play', id=game['game_id']) }}">show_who_play</a></th>
