@@ -5,24 +5,22 @@
     <table class="table table table-striped table-bordered">
        <thead>
         <tr>
-          <th scope="col">Tournaments</th>
-          <th scope="col">Teams</th>
-          <th scope="col">Count Teams</th>
-          <th scope="col">Add Teams</th>
+          <th scope="col">Nazwa Turnieju</th>
+          <th scope="col">Kto gra</th>
+          <th scope="col">Przypisanych zespołów</th>
+          <th scope="col">Dodaj grę</th>
         </tr>
       </thead>
        <tbody>
-        {% for tournaments in tournaments %}
+        {% for tournament in tournaments %}
         <tr>
-          <th>{{ tournaments['tournament_name'] }}</th>
-          <th><a href="{{ url_for('tournament.show_tournament', id=tournaments['tournament_id']) }}">link</a></th>
-          <th>{{ tournaments['sum_teams'] }}</th>
-          <th><a href="{{ url_for('tournament.show_tournament', id=tournaments['tournament_id']) }}">link</a></th>
+          <th>{{ tournament['tournament_name'] }}</th>
+          <th><a href="{{ url_for('tournament.show_tournament', id=tournament['tournament_id']) }}">link</a></th>
+          <th>{{ tournament['sum_teams'] }}</th>
+          <th><a href="{{ url_for('games.add_teams', tour_id=tournament['tournament_id']) }}">link</a></th>
         </tr>
-        {% if not loop.last %}
-            <hr>
-        {% endif %}
         {% endfor %}
+
        </tbody>
     </table>
 

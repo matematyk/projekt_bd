@@ -3,7 +3,9 @@ from flask import (
 )
 
 from project.model.team import *
-from project.controller.auth import requires_roles, login_required
+from project.controller.auth import (
+    requires_roles, login_required
+)
 
 bp = Blueprint('team', __name__)
 

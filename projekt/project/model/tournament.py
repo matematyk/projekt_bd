@@ -6,6 +6,7 @@ def get_tournaments():
     curs = con.cursor()
     tournaments = curs.execute(
         """SELECT
+              t.date_end,
               t.Tournament_ID,
               t.Tournament_NAME,
               SUM(CASE
@@ -16,9 +17,11 @@ def get_tournaments():
             LEFT JOIN Tournament_Application apli
               ON t.Tournament_ID = apli.Tournament_ID
             GROUP BY t.Tournament_ID,
-                     t.Tournament_NAME
+                     t.Tournament_NAME,
+                     t.date_end
         """
     ).fetchall()
+
     return get_column_name(tournaments, curs)
 
 
@@ -68,7 +71,6 @@ def create_tournament(name, date_start, date_end):
 def create_application(team_id, tournament_id, date):
     con = get_con()
     db = con.cursor()
-    print(team_id, tournament_id, date)
     db.prepare("""
             INSERT INTO Tournament_Application(Team_ID, Tournament_ID, Date_application) 
             VALUES (:team_id, :tournament_id, to_date(:date_s, 'YYYY-MM-DD'))

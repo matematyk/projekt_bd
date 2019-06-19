@@ -5,14 +5,10 @@ from project.controller.auth import (
     requires_roles, login_required
 )
 from project.model.games import (
-    get_games, get_games_team, get_who_plays, get_games_by_tournament
+    get_games, get_games_team, get_who_plays, get_games_by_tournament, create_game, get_game, set_score_to_game
 )
 
 bp = Blueprint('games', __name__)
-
-from project.model.tournament import (
-    get_tournament
-)
 
 
 @bp.route('/games/all')
@@ -42,13 +38,52 @@ def show_who_play(id):
     return render_template('games/who_plays.html', players=players)
 
 
-@bp.route('/tournament/<int:tour_id>/games/<int:game_id>/add')
+@bp.route('/tournament/<int:tour_id>/games/add', methods=('POST', 'GET'))
 @login_required
 @requires_roles('admin')
-def add_teams(tour_id, game_id):
-    tournament = get_tournament(tour_id)
-    games = get_games_by_tournament(tour_id)
+def add_teams(tour_id):
+    tournament_teams = get_games_by_tournament(tour_id)
 
-    print(games)
+    if request.method == 'POST':
+        team1 = request.form['team_1']
+        team2 = request.form['team_2']
+        date = request.form['date']
+        error = None
 
-    return render_template('games/add_teams.html', tournament=tournament, games=games)
+        if not team1:
+            error = 'team1 name is required.'
+        if not team2:
+            error = 'team2 name is required'
+        if not date:
+            error = 'Date is required'
+
+        if team1 == team2:
+            error = 'Zespół sam ze sobą nie może zagrać meczu.'
+
+        if error is not None:
+            flash(error)
+        else:
+
+            create_game(tour_id, team1, team2, date)
+
+            flash('Dodałeś nową grę. Gratulacje!' + team1 + team2)
+
+            return redirect(url_for('games.add_teams', tour_id=tour_id))
+
+    return render_template('games/add_teams.html', teams=tournament_teams)
+
+
+@bp.route('/games/<int:game_id>/edit', methods=('POST', 'GET'))
+@login_required
+@requires_roles('admin')
+def edit_games(game_id):
+    select_game = get_game(game_id)
+
+    if request.method == 'POST':
+        result = request.form['result']
+
+        set_score_to_game(game_id, result)
+
+        return redirect(url_for('games.edit_games', game_id=game_id))
+
+    return render_template('games/edit_game.html', game=select_game[0])

@@ -19,6 +19,42 @@ def get_games():
     return get_column_name(games.fetchall(), curs)
 
 
+def get_game(game_id):
+    con = get_con()
+    curs = con.cursor()
+    curs.prepare("""SELECT
+              g.Game_ID,
+              g.Result,
+              t1.TeamName | | '-' | | t2.TeamName "VS"
+            FROM Games g
+            JOIN Teams t1
+              ON Team1_Id = t1.Team_id
+            JOIN Teams t2
+              ON Team2_id = t2.Team_id
+            WHERE g.Game_ID = :game_id 
+              """)
+
+    game = curs.execute(
+        None, {'game_id': game_id}
+    )
+
+    return get_column_name(game.fetchall(), curs)
+
+
+def set_score_to_game(game_id, result):
+    con = get_con()
+    db = con.cursor()
+
+    db.prepare("""
+           UPDATE Games
+            SET result = :result
+            WHERE game_id = :game_id
+            """)
+    db.execute(None, {'game_id': game_id, 'result': result})
+
+    con.commit()
+
+
 def get_games_team(team_id):
     con = get_con()
     curs = con.cursor()
@@ -74,12 +110,28 @@ def get_games_by_tournament(tour_id):
     curs = con.cursor()
     curs.prepare("""
                   SELECT *
-                FROM Games g
-                JOIN Tournament t ON g.tournament = t.Tournament_ID
-                where t.Tournament_ID = :tournament_id
+                    FROM Tournament_Application ta
+                    JOIN Tournament t 
+                        ON ta.Tournament_ID = t.Tournament_ID
+                    JOIN Teams team
+                        ON team.Team_ID = ta.Team_ID
+                    WHERE t.Tournament_ID = :tournament_id
                    """)
     games = curs.execute(
         None, {'tournament_id': tour_id}
     )
 
     return get_column_name(games.fetchall(), curs)
+
+
+def create_game(tournament_id, team1, team2, date):
+    con = get_con()
+    db = con.cursor()
+
+    db.prepare("""
+            INSERT INTO Games(Date_game, Result, Team1_ID, Team2_ID, Tournament)
+            VALUES (to_date(:date_s, 'YYYY-MM-DD'), '0:0', :team1, :team2, :tournament_id)
+            """)
+    db.execute(None, {'tournament_id': tournament_id, 'team1': team1, 'team2': team2, 'date_s': date})
+
+    con.commit()

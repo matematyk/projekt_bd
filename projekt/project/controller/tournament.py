@@ -11,7 +11,7 @@ from datetime import datetime
 bp = Blueprint('tournament', __name__)
 
 
-@bp.route('/tournaments/all')
+@bp.route('/')
 @login_required
 @requires_roles('admin')
 def all_tournaments():
