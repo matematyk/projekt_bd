@@ -84,6 +84,9 @@ def edit_games(game_id):
 
         set_score_to_game(game_id, result)
 
+        flash('Edycja została wykonana. Gratulacje!')
+
+
         return redirect(url_for('games.edit_games', game_id=game_id))
 
     return render_template('games/edit_game.html', game=select_game[0])

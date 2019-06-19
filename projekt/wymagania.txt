@@ -15,8 +15,11 @@ Aplikacja powinna umożliwiać organizatorom:
 
     + Dokonywanie zgłoszeń drużyn do turnieju (czyli wprowadzanie drużyn do bazy danych).
     + Podawanie listy zawodników drużyny.
-    + Zamknięcie zgłoszeń (być może przez termin).
-    Ustalanie meczów do rozegrania.
+    Zamknięcie zgłoszeń (być może przez termin).
+
+    + Ustalanie meczów do rozegrania.
+        + http://localhost:5000/games/all
+
     Zgłaszanie składu drużyn na mecz (do momentu rozegrania meczu).
     Rozegranie meczu: wpisanie wyniku itp. 
 

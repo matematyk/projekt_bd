@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, render_template, request, redirect, url_for
+    Blueprint, render_template, request, redirect, url_for, flash
 )
 
 from project.model.team import *
@@ -37,6 +37,8 @@ def add_team():
 
         create_team(team_name)
 
+        flash('Dodałeś team. Gratulacje!')
+
         return redirect(url_for('team.index'))
 
     return render_template('team/create.html')
@@ -52,6 +54,8 @@ def add_team_squad(id_game, id_team):
         player_id = request.form['player_id']
 
         add_player_to_game(id_game, player_id)
+
+        flash('Dodałeś zawodnika. Gratulacje!')
 
         return redirect(url_for('team.add_team_squad', id_game=id_game, id_team=id_team))
 
