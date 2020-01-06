@@ -1,0 +1,1 @@
+RÓŻNE ZADANIA Z SQL 
