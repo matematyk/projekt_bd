@@ -6,7 +6,7 @@
 ### Tunelowanie sie do hosta labora.mimuw.edu.pl 
 
 ```
-ssh -N -f -L localhost:1521:labora.mimuw.edu.pl:1521 mw404851@students.mimuw.edu.pl
+ssh -N -f -L localhost:1521:labora.mimuw.edu.pl:1521 user@students.mimuw.edu.pl
 ```
 
 ### Fixtures: 
